@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import 'purecss'
+import TitleList from './components/List';
+import { useState, useEffect } from 'react';
 
 function App() {
+  let [titles, setTitles] = useState([]);
+  let [settings] = useState([{ displayReasoning: false }]);
+
+  const getData = () => {
+    fetch('http://localhost:8080/v1/aniapi',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then((data => setTitles(data)))
+  }
+
+  //added so react doesn't spam errors and die
+  useEffect(() => {
+    getData()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="pure-g">
+        <div className="pure-u-1 pure-u-md-1-3"><TitleList titles={titles} settings={settings} /></div>
+      </div>
     </div>
   );
 }
