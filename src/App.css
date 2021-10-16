@@ -4,6 +4,9 @@
     --milkywhite: #e4ecd5;
 }
 
+body {
+    background-color: var(--dgreen);
+}
 
 .title-thumbnail {
     height: 10em;
@@ -35,4 +38,8 @@ nav {
 .nav-icon svg {
     fill: var(--milkywhite);
     margin: 1em;
+}
+
+form label {
+    color: var(--milkywhite);
 }
