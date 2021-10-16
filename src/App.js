@@ -1,14 +1,24 @@
 import './App.css';
 import 'purecss'
 import TitleList from './components/List';
+import LoginForm from './components/LoginPage';
 import { useState, useEffect } from 'react';
+import { AiOutlineUser, AiOutlineUnorderedList } from "react-icons/ai"
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from "react-router-dom";
 
 function App() {
   let [titles, setTitles] = useState([]);
   let [settings] = useState([{ displayReasoning: false }]);
 
   const getData = () => {
-    fetch('http://localhost:8080/v1/aniapi',
+    fetch('http://localhost:8080/aniapi/getAll/1',
       {
         headers: {
           'Content-Type': 'application/json',
@@ -26,9 +36,21 @@ function App() {
 
   return (
     <div className="App">
-      <div className="pure-g">
-        <div className="pure-u-1 pure-u-md-1-3"><TitleList titles={titles} settings={settings} /></div>
-      </div>
+      <Router>
+        <nav>
+          <Link className="nav-icon" to="/"><AiOutlineUnorderedList size={50} /></Link>
+          <Link className="nav-icon" to="/login"><AiOutlineUser size={50} /></Link>
+        </nav>
+
+        <Switch>
+          <Route path="/list/:id">
+            <TitleList titles={titles} settings={settings} />
+          </Route>
+          <Route path="/login">
+            <LoginForm />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
