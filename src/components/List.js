@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router'
+import { useState, useEffect } from 'react'
 
 const Title = ({ title, settings }) => {
     return (
@@ -13,21 +14,26 @@ const Title = ({ title, settings }) => {
     )
 }
 
-const TitleList = ({ titles, settings }) => {
+const TitleList = ({ settings }) => {
+    let [titles, setTitles] = useState([]);
     let { userid } = useParams();
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/aniapi/getAll/${userid}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then((data => setTitles(data)))
+    })
+
     return (
         <div className="pure-g">
             <div className="pure-u-1 pure-u-md-1-3">
                 <table className="pure-table pure-table-horizontal">
-                    <thead>
-                        <tr>
-                            <th>Banner</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Rating</th>
-                            {settings.displayReasoning ? <th>Reasoning</th> : undefined}
-                        </tr>
-                    </thead>
                     <tbody>
                         {titles.map(title => <Title key={title.id} title={title} settings={settings} />)}
                     </tbody>
