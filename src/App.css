@@ -33,6 +33,7 @@ body {
 nav {
     background-color: var(--green);
     height: 5rem;
+    display: flex;
 }
 
 .nav-icon svg {
@@ -42,4 +43,9 @@ nav {
 
 form label {
     color: var(--milkywhite);
+}
+
+.search-input {
+    display: block;
+    margin: 1em;
 }

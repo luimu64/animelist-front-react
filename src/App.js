@@ -21,6 +21,9 @@ function App() {
         <nav>
           <Link className="nav-icon" to="/list"><AiOutlineUnorderedList size={50} /></Link>
           <Link className="nav-icon" to="/login"><AiOutlineUser size={50} /></Link>
+          <input className="search-input" type="text" onKeyPress={e => {
+            if (e.key === 'Enter') window.location.replace(`/list/${e.target.value}`)
+          }} />
         </nav>
 
         <Switch>
