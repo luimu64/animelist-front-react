@@ -5,7 +5,6 @@ const LoginForm = () => {
     const [reqBody, setReqBody] = useState({ username: "", password: "" });
     const Login = (e) => {
         e.preventDefault()
-        console.log(JSON.stringify(reqBody))
         fetch(`http://localhost:8080/aniapi/login`,
             {
                 method: 'POST',

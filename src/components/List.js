@@ -28,7 +28,7 @@ const TitleList = ({ settings }) => {
             })
             .then(res => res.json())
             .then((data => setTitles(data)))
-    })
+    }, [userid])
 
     return (
         <div className="pure-g">
