@@ -14,7 +14,7 @@ const LoginForm = () => {
                 }
             })
             .then(res => res.json())
-            .then((data => console.log(data)))
+            .then(data => localStorage.setItem("token", data.token))
     }
 
     return (

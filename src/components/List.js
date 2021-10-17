@@ -19,15 +19,28 @@ const TitleList = ({ settings }) => {
     let { userid } = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:8080/aniapi/getAll/${userid}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then((data => setTitles(data)))
+        if (userid === undefined) {
+            fetch('http://localhost:8080/aniapi/getMyList',
+                {
+                    headers: {
+                        'Authentication': localStorage.getItem("token"),
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then((data => setTitles(data)))
+        } else {
+            fetch(`http://localhost:8080/aniapi/getAll/${userid}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then((data => setTitles(data)))
+        }
     }, [userid])
 
     return (

@@ -30,6 +30,9 @@ function App() {
           <Route path="/list/:userid">
             <TitleList settings={settings} />
           </Route>
+          <Route path="/list">
+            <TitleList settings={settings} />
+          </Route>
           <Route path="/login">
             <LoginForm />
           </Route>
