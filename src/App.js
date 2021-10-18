@@ -1,45 +1,50 @@
 import './App.css';
 import 'purecss'
-import TitleList from './components/List';
-import LoginForm from './components/LoginPage';
-import { useState } from 'react';
-import { AiOutlineUser, AiOutlineUnorderedList } from "react-icons/ai"
+import { UserTitleList, MyTitleList } from './components/List';
+import { LoginForm, Logout } from './components/Login';
+import { useState, createContext } from 'react';
 
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from "react-router-dom";
+import Navbar from './components/Navbar';
+
+export const LoginContext = createContext();
 
 function App() {
   let [settings] = useState([{ displayReasoning: false }]);
+  let [isLoggedIn, setLoginStatus] = useState(false);
+
+  const PrivateRoute = ({ children }) => {
+    return (<Route>{isLoggedIn ? children : <Redirect to={"/login"} />}</Route>)
+  }
 
   return (
     <div className="App">
-      <Router>
-        <nav>
-          <Link className="nav-icon" to="/list"><AiOutlineUnorderedList size={50} /></Link>
-          <Link className="nav-icon" to="/login"><AiOutlineUser size={50} /></Link>
-          <input className="search-input" type="text" onKeyPress={e => {
-            if (e.key === 'Enter') window.location.replace(`/list/${e.target.value}`)
-          }} />
-        </nav>
-
-        <Switch>
-          <Route path="/list/:userid">
-            <TitleList settings={settings} />
-          </Route>
-          <Route path="/list">
-            <TitleList settings={settings} />
-          </Route>
-          <Route path="/login">
-            <LoginForm />
-          </Route>
-        </Switch>
-      </Router>
+      <LoginContext.Provider value={{ isLoggedIn, setLoginStatus }}>
+        <Navbar children={
+          <Switch>
+            <Route path="/list/:userid">
+              <UserTitleList settings={settings} />
+            </Route>
+            <PrivateRoute path="/list">
+              <MyTitleList settings={settings} />
+            </PrivateRoute>
+            <Route path="/login">
+              <LoginForm />
+            </Route>
+            <PrivateRoute path="/logout">
+              <Logout />
+            </PrivateRoute>
+          </Switch>
+        } />
+      </ LoginContext.Provider>
     </div>
-  );
+  )
 }
+
+
 
 export default App;
