@@ -18,9 +18,8 @@ const UserTitleList = ({ settings }) => {
     let [titles, setTitles] = useState([]);
     let { userid } = useParams();
 
-
     useEffect(() => {
-        fetch(`http://localhost:8080/aniapi/getAll/${userid}`,
+        fetch(`http://localhost:8080/aniapi/list/get/${userid}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +47,8 @@ const MyTitleList = ({ settings }) => {
     let [titles, setTitles] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/aniapi/getMyList',
+        const userID = localStorage.getItem("userID")
+        fetch(`http://localhost:8080/aniapi/list/get/auth/${userID}`,
             {
                 headers: {
                     'Authentication': localStorage.getItem("token"),
