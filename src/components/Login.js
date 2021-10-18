@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { LoginContext } from "../App.js"
 
@@ -6,12 +6,11 @@ import {
     Route,
     Redirect
 } from "react-router";
-import { isLoggedIn } from "../helpers";
 
 const Logout = () => {
     localStorage.removeItem("token");
     const { setLoginStatus } = useContext(LoginContext);
-    setLoginStatus(false)
+    useEffect(() => setLoginStatus(false))
     return (
         <Route>
             <Redirect to={"/login"} />
@@ -21,7 +20,7 @@ const Logout = () => {
 
 const LoginForm = () => {
     const [reqBody, setReqBody] = useState({ username: "", password: "" });
-    const { setLoginStatus } = useContext(LoginContext);
+    const { isLoggedIn, setLoginStatus } = useContext(LoginContext);
     const Login = (e) => {
         e.preventDefault()
         fetch(`http://localhost:8080/aniapi/login`,
@@ -40,7 +39,7 @@ const LoginForm = () => {
             })
     }
 
-    return (isLoggedIn ? (<Route><Redirect to={"/list/1"} /></Route>) : (
+    return (isLoggedIn ? (<Route><Redirect to={"/list"} /></Route>) : (
         <form className="pure-form pure-form-stacked" onSubmit={e => Login(e)}>
             <fieldset>
                 <label htmlFor="username">Username</label>

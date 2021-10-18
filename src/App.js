@@ -10,12 +10,13 @@ import {
   Redirect
 } from "react-router-dom";
 import Navbar from './components/Navbar';
+import { isTokenSet } from './helpers'
 
-export const LoginContext = createContext();
+export const LoginContext = createContext(isTokenSet);
 
 function App() {
   let [settings] = useState([{ displayReasoning: false }]);
-  let [isLoggedIn, setLoginStatus] = useState(false);
+  let [isLoggedIn, setLoginStatus] = useState(isTokenSet());
 
   const PrivateRoute = ({ children }) => {
     return (<Route>{isLoggedIn ? children : <Redirect to={"/login"} />}</Route>)
@@ -29,12 +30,12 @@ function App() {
             <Route path="/list/:userid">
               <UserTitleList settings={settings} />
             </Route>
-            <PrivateRoute path="/list">
-              <MyTitleList settings={settings} />
-            </PrivateRoute>
             <Route path="/login">
               <LoginForm />
             </Route>
+            <PrivateRoute path="/list">
+              <MyTitleList settings={settings} />
+            </PrivateRoute>
             <PrivateRoute path="/logout">
               <Logout />
             </PrivateRoute>
