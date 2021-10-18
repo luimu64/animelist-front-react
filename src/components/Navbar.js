@@ -8,8 +8,8 @@ const Navbar = ({ children }) => {
     return (
         <BrowserRouter>
             <nav>
-                <Link className="nav-icon" to="/list"><AiOutlineUnorderedList size={50} /></Link>
-                <Link className="nav-icon" to="/user"><AiOutlineUser size={50} /></Link>
+                {isLoggedIn ? <Link className="nav-icon" to="/user"><AiOutlineUser size={50} /></Link> : undefined}
+                {isLoggedIn ? <Link className="nav-icon" to="/list"><AiOutlineUnorderedList size={50} /></Link> : undefined}
                 {isLoggedIn ?
                     <Link className="nav-icon" to="/logout"><AiOutlineLogout size={50} /></Link> :
                     <Link className="nav-icon" to="/login"><AiOutlineLogin size={50} /></Link>}
