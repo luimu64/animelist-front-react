@@ -5,17 +5,18 @@ import { LoginContext } from "../App.js"
 
 const Navbar = ({ children }) => {
     const { isLoggedIn } = useContext(LoginContext);
+
+    const handleClick = (e) => e.key === 'Enter' ? window.location = (`/list/${e.target.value}`) : null
+
     return (
         <BrowserRouter>
             <nav>
-                {isLoggedIn ? <Link className="nav-icon" to="/user"><AiOutlineUser size={50} /></Link> : undefined}
-                {isLoggedIn ? <Link className="nav-icon" to="/list"><AiOutlineUnorderedList size={50} /></Link> : undefined}
+                {isLoggedIn && <Link className="nav-icon" to="/user"><AiOutlineUser size={50} /></Link>}
+                {isLoggedIn && <Link className="nav-icon" to="/list"><AiOutlineUnorderedList size={50} /></Link>}
                 {isLoggedIn ?
                     <Link className="nav-icon" to="/logout"><AiOutlineLogout size={50} /></Link> :
                     <Link className="nav-icon" to="/login"><AiOutlineLogin size={50} /></Link>}
-                <input className="search-input" type="text" onKeyPress={e => {
-                    if (e.key === 'Enter') window.location.replace(`/list/${e.target.value}`)
-                }} />
+                <input className="search-input" type="text" onKeyPress={e => handleClick(e)} />
             </nav>
             {children}
         </BrowserRouter>
