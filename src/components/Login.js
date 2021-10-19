@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App.js"
 
 import {
     Route,
-    Redirect
-} from "react-router";
+    Redirect,
+    Link
+} from "react-router-dom";
 
 const Logout = () => {
     localStorage.removeItem("token");
@@ -39,8 +39,9 @@ const LoginForm = () => {
             })
     }
 
-    return (isLoggedIn ? (<Route><Redirect to={"/list"} /></Route>) : (
-        <form className="pure-form pure-form-stacked" onSubmit={e => Login(e)}>
+    return (isLoggedIn ?
+        (<Route><Redirect to={"/list"} /></Route>) :
+        (<form className="pure-form pure-form-stacked" onSubmit={e => Login(e)}>
             <fieldset>
                 <label htmlFor="username">Username</label>
                 <input type="text" id="username" placeholder="username"
@@ -49,6 +50,9 @@ const LoginForm = () => {
                 <input type="password" id="password" placeholder="Password"
                     value={reqBody.password} onChange={e => setReqBody({ ...reqBody, password: e.target.value })} />
                 <button type="submit" className="pure-button pure-button-primary" >Sign in</button>
+                <Route>
+                    <Link className="pure-button" to={"/register"}>Don't have an account?</Link>
+                </Route>
             </fieldset>
         </form>)
     )
