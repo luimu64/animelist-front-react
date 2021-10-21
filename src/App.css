@@ -8,6 +8,8 @@ body {
     background-color: var(--dgreen);
 }
 
+h1,h2,h3,
+h4,h5,h6,
 p {
     color: var(--milkywhite);
 }
@@ -52,4 +54,14 @@ form label {
 .search-input {
     display: block;
     margin: 1em;
+}
+
+.search-result {
+    display: flex;
+    height: 5em;
+    margin: 0.5em;
+}
+
+.search-result > img {
+    max-width: 3.5em;
 }

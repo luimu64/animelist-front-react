@@ -2,6 +2,7 @@ import './App.css';
 import 'purecss'
 import { UserTitleList, MyTitleList } from './components/List';
 import { LoginForm, Logout } from './components/Login';
+import AddTitlePage from './components/AddTitle';
 import RegisterForm from './components/Register';
 import { useState, createContext } from 'react';
 
@@ -39,6 +40,9 @@ function App() {
             </Route>
             <PrivateRoute path="/list">
               <MyTitleList settings={settings} />
+            </PrivateRoute>
+            <PrivateRoute path="/title/add">
+              <AddTitlePage />
             </PrivateRoute>
             <PrivateRoute path="/logout">
               <Logout />
