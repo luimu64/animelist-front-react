@@ -59,18 +59,19 @@ const MyTitleList = ({ settings }) => {
             .then(res => res.json())
             .then((data => setTitles(data)))
     }, [])
-
-    return (
-        <div className="pure-g">
-            <div className="pure-u-1 pure-u-md-1-3">
-                <table className="pure-table pure-table-horizontal">
-                    <tbody>
-                        {titles.map(title => <Title key={title.id} title={title} settings={settings} />)}
-                    </tbody>
-                </table>
+    if (titles.length > 0) {
+        return (
+            <div className="pure-g">
+                <div className="pure-u-1 pure-u-md-1-3">
+                    <table className="pure-table pure-table-horizontal">
+                        <tbody>
+                            {titles.map(title => <Title key={title.id} title={title} settings={settings} />)}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    )
+        )
+    } else return <p>You don't have any anime titles added in your list</p>
 }
 
 export { UserTitleList, MyTitleList };

@@ -8,6 +8,10 @@ body {
     background-color: var(--dgreen);
 }
 
+p {
+    color: var(--milkywhite);
+}
+
 .title-thumbnail {
     height: 10em;
     border-radius: 0.3em;
