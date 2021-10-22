@@ -57,7 +57,23 @@ form label {
 }
 
 .search-result {
+    padding: 1em;
     display: flex;
-    height: 5em;
+    flex-direction: column;
     margin: 0.5em;
+    border: solid 1px var(--milkywhite);
+    border-radius: 1em;
+}
+
+.selected-anime {
+    display: flex;
+}
+
+.selected-anime > div {
+    margin: 1em;
+}
+
+.selected-anime > img {
+    margin: 1em;
+    height: 8em;
 }
