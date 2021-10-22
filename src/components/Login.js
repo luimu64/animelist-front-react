@@ -23,8 +23,8 @@ const LoginForm = () => {
     const [reqBody, setReqBody] = useState({ username: "", password: "" });
     const { isLoggedIn, setLoginStatus } = useContext(LoginContext);
     const Login = (e) => {
-        e.preventDefault()
-        fetch(`http://localhost:8080/aniapi/login`,
+        e.preventDefault();
+        fetch(`${process.env.REACT_APP_APIURL}/aniapi/login`,
             {
                 method: 'POST',
                 body: JSON.stringify(reqBody),

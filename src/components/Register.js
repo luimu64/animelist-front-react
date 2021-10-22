@@ -10,7 +10,7 @@ const RegisterForm = () => {
         e.preventDefault();
         if (reqBody.password === reqBody.password_verify) {
             delete reqBody.password_verify;
-            fetch(`http://localhost:8080/aniapi/register`,
+            fetch(`${process.env.REACT_APP_APIURL}/aniapi/register`,
                 {
                     method: 'POST',
                     body: JSON.stringify(reqBody),
