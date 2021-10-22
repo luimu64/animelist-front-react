@@ -9,6 +9,7 @@ import {
 
 const Logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("userID");
     const { setLoginStatus } = useContext(LoginContext);
     useEffect(() => setLoginStatus(false))
     return (
