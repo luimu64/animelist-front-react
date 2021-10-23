@@ -17,6 +17,7 @@ const AddForm = ({ titleData, setTitleData }) => {
             method: 'POST',
             body: JSON.stringify(titleData),
             headers: {
+                'Authentication': localStorage.getItem("token"),
                 'Content-Type': 'application/json'
             }
         }).then(res => res.json())

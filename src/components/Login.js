@@ -37,7 +37,7 @@ const LoginForm = () => {
                 if (data.token !== undefined && data.userID !== undefined) {
                     setLoginStatus(true);
                     localStorage.setItem("token", data.token)
-                    localStorage.setItem("userID", data.userID)
+                    localStorage.setItem("userID", Number(data.userID))
                 }
             })
     }
