@@ -57,7 +57,7 @@ const AddForm = ({ titleData, setTitleData }) => {
 const AddTitlePage = () => {
     const [query, setQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [titleData, setTitleData] = useState({ rating: "", status: "unknown", reasoning: "", userID: localStorage.getItem("userID"), data: {} });
+    const [titleData, setTitleData] = useState({ rating: "", status: "unknown", reasoning: "", userID: Number(localStorage.getItem("userID")), data: {} });
 
     const search = (e) => {
         e.preventDefault();
