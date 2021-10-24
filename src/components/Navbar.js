@@ -6,13 +6,20 @@ import {
     AiOutlineLogout,
     AiOutlinePlusCircle
 } from "react-icons/ai"
-import { Link, BrowserRouter } from "react-router-dom";
+import { Link, BrowserRouter, useHistory } from "react-router-dom";
 import { LoginContext } from "../App.js"
+
+const UserSearch = () => {
+    let history = useHistory();
+    return (
+        <input className="search-input" type="text" onKeyPress={e => {
+            if (e.key === 'Enter') history.push(`/list/${e.target.value}`)
+        }} />
+    )
+}
 
 const Navbar = ({ children }) => {
     const { isLoggedIn } = useContext(LoginContext);
-
-    const handleClick = (e) => e.key === 'Enter' ? window.location = (`/list/${e.target.value}`) : null
 
     return (
         <BrowserRouter>
@@ -23,7 +30,7 @@ const Navbar = ({ children }) => {
                 {isLoggedIn ?
                     <Link className="nav-icon" to="/logout"><AiOutlineLogout size={50} /></Link> :
                     <Link className="nav-icon" to="/login"><AiOutlineLogin size={50} /></Link>}
-                <input className="search-input" type="text" onKeyPress={e => handleClick(e)} />
+                <UserSearch />
             </nav>
             {children}
         </BrowserRouter>
