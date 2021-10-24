@@ -1,6 +1,31 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { AiOutlineDelete } from "react-icons/ai"
+
+
+const Delete = ({ mal_id }) => {
+    const deleteTitle = () => {
+        fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/remove`,
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    mal_id: mal_id,
+                    userID: Number(localStorage.getItem("userID"))
+                }),
+                headers: {
+                    'Authentication': localStorage.getItem("token"),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+    }
+
+    return (
+        <button className="pure-button" onClick={() => deleteTitle()}><AiOutlineDelete size={20} /></button>
+    )
+}
 
 const Title = ({ title, settings }) => {
     return (
@@ -10,6 +35,7 @@ const Title = ({ title, settings }) => {
             <td>{title.status}</td>
             <td>{title.rating}</td>
             {settings.displayReasoning ? <td>{title.reasoning}</td> : undefined}
+            <td><Delete mal_id={title.mal_id} /></td>
         </tr >
     )
 }
