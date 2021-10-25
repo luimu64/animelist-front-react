@@ -1,6 +1,6 @@
 import './App.css';
 import 'purecss'
-import { UserTitleList, MyTitleList } from './components/List';
+import UserTitleList from './components/List';
 import { LoginForm, Logout } from './components/Login';
 import AddTitlePage from './components/AddTitle';
 import RegisterForm from './components/Register';
@@ -29,7 +29,7 @@ function App() {
       <LoginContext.Provider value={{ isLoggedIn, setLoginStatus }}>
         <Navbar children={
           <Switch>
-            <Route path="/list/:userid">
+            <Route path="/list/:userID">
               <UserTitleList settings={settings} />
             </Route>
             <Route path="/login">
@@ -39,7 +39,7 @@ function App() {
               <RegisterForm />
             </Route>
             <PrivateRoute path="/list">
-              <MyTitleList settings={settings} />
+              <UserTitleList settings={settings} />
             </PrivateRoute>
             <PrivateRoute path="/title/add">
               <AddTitlePage />
