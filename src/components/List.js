@@ -36,9 +36,9 @@ const DeleteButton = ({ mal_id }) => {
     )
 }
 
-const EditButton = ({ setEdinting }) => {
+const EditButton = ({ setEditing }) => {
     const editTitle = () => {
-        setEdinting(true);
+        setEditing(true);
     }
 
     return (
@@ -46,11 +46,31 @@ const EditButton = ({ setEdinting }) => {
     )
 }
 
-const ConfirmButton = ({ title, setEdinting }) => {
+const ConfirmButton = ({ title, setEditing }) => {
     const { titles, setTitles } = useContext(TitleContext);
     const updateTitle = () => {
-        setTitles(titles.map(t => t.mal_id === title.mal_id ? title : t));
-        setEdinting(false);
+        fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/edit`,
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    status: title.status,
+                    rating: title.rating,
+                    reasoning: title.reasoning,
+                    mal_id: title.mal_id,
+                    userID: Number(localStorage.getItem("userID"))
+                }),
+                headers: {
+                    'Authentication': localStorage.getItem("token"),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message === "editing-success") {
+                    setTitles(titles.map(t => t.mal_id === title.mal_id ? title : t));
+                    setEditing(false);
+                }
+            })
     }
 
     return (
@@ -62,7 +82,7 @@ const Title = ({ titleData }) => {
     const [title, setTitle] = useState(titleData);
     const { isLoggedIn } = useContext(LoginContext);
     const { pathname } = useLocation();
-    const [editing, setEdinting] = useState();
+    const [editing, setEditing] = useState(false);
 
     if (editing) {
         return (
@@ -76,8 +96,7 @@ const Title = ({ titleData }) => {
                 </div>
                 {isLoggedIn && pathname === "/list" &&
                     <div className="title-actions">
-                        <DeleteButton mal_id={title.mal_id} />
-                        <ConfirmButton title={title} setEdinting={setEdinting} />
+                        <ConfirmButton title={title} setEditing={setEditing} />
                     </div>
                 }
             </div>
@@ -95,7 +114,7 @@ const Title = ({ titleData }) => {
                 {isLoggedIn && pathname === "/list" &&
                     <div className="title-actions">
                         <DeleteButton mal_id={title.mal_id} />
-                        <EditButton setEdinting={setEdinting} />
+                        <EditButton setEditing={setEditing} />
                     </div>
                 }
             </div>
