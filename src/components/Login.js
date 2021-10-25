@@ -35,9 +35,9 @@ const LoginForm = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.token !== undefined && data.userID !== undefined) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("userID", Number(data.userID));
                     setLoginStatus(true);
-                    localStorage.setItem("token", data.token)
-                    localStorage.setItem("userID", Number(data.userID))
                 }
             })
     }
