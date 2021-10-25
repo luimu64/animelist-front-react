@@ -1,11 +1,13 @@
 import React from "react";
 import { useState, useContext } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { LoginContext } from "../App";
 
 const RegisterForm = () => {
     const [reqBody, setReqBody] = useState({ username: "", password: "", password_verify: "" });
     const { isLoggedIn } = useContext(LoginContext);
+    const history = useHistory();
+
     const Login = (e) => {
         e.preventDefault();
         if (reqBody.password === reqBody.password_verify) {
@@ -28,7 +30,10 @@ const RegisterForm = () => {
         setReqBody(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    return (isLoggedIn ? (<Route><Redirect to={"/list"} /></Route>) : (
+    if (isLoggedIn) {
+        history.push("/list");
+        return null;
+    } else return (
         <form className="pure-form pure-form-stacked" onSubmit={e => Login(e)}>
             <fieldset>
                 <label htmlFor="username">Username</label>
@@ -42,7 +47,7 @@ const RegisterForm = () => {
                     value={reqBody.password_verify} onChange={handleChange} />
                 <button type="submit" className="pure-button pure-button-primary" >Sign up</button>
             </fieldset>
-        </form>)
+        </form>
     )
 }
 

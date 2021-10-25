@@ -42,8 +42,7 @@ const LoginForm = () => {
             })
     }
 
-    return (isLoggedIn ?
-        (<Route><Redirect to={"/list"} /></Route>) :
+    return (isLoggedIn ? <Route><Redirect to="/list" /></Route> :
         (<form className="pure-form pure-form-stacked" onSubmit={e => Login(e)}>
             <fieldset>
                 <label htmlFor="username">Username</label>
