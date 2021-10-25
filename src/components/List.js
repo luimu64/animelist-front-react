@@ -1,10 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { AiOutlineDelete } from "react-icons/ai"
 
+const Tcontext = createContext(null);
 
 const Delete = ({ mal_id }) => {
+    const tcontext = useContext(Tcontext);
     const deleteTitle = () => {
         fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/remove`,
             {
@@ -19,7 +21,9 @@ const Delete = ({ mal_id }) => {
                 }
             })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                if (data.message === "deleting-success") tcontext.setTitles(tcontext.titles.filter(e => e.mal_id !== mal_id))
+            })
     }
 
     return (
@@ -87,15 +91,17 @@ const MyTitleList = ({ settings }) => {
     }, [])
     if (titles.length > 0) {
         return (
-            <div className="pure-g">
-                <div className="pure-u-1 pure-u-md-1-3">
-                    <table className="pure-table pure-table-horizontal">
-                        <tbody>
-                            {titles.map(title => <Title key={title.id} title={title} settings={settings} />)}
-                        </tbody>
-                    </table>
+            <Tcontext.Provider value={{ titles: titles, setTitles: setTitles }}>
+                <div className="pure-g">
+                    <div className="pure-u-1 pure-u-md-1-3">
+                        <table className="pure-table pure-table-horizontal">
+                            <tbody>
+                                {titles.map(title => <Title key={title.id} title={title} settings={settings} />)}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </Tcontext.Provider>
         )
     } else return <p>You don't have any anime titles added in your list</p>
 }
