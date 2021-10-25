@@ -17,7 +17,6 @@ import { isTokenSet } from './helpers'
 export const LoginContext = createContext(isTokenSet);
 
 function App() {
-  let [settings] = useState([{ displayReasoning: false }]);
   let [isLoggedIn, setLoginStatus] = useState(isTokenSet());
 
   const PrivateRoute = ({ children }) => {
@@ -30,7 +29,7 @@ function App() {
         <Navbar children={
           <Switch>
             <Route path="/list/:userID">
-              <UserTitleList settings={settings} />
+              <UserTitleList />
             </Route>
             <Route path="/login">
               <LoginForm />
@@ -39,7 +38,7 @@ function App() {
               <RegisterForm />
             </Route>
             <PrivateRoute path="/list">
-              <UserTitleList settings={settings} />
+              <UserTitleList />
             </PrivateRoute>
             <PrivateRoute path="/title/add">
               <AddTitlePage />
