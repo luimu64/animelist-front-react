@@ -1,13 +1,17 @@
 import React from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect, createContext, useContext } from 'react';
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai"
+import {
+    AiOutlineDelete,
+    AiOutlineEdit,
+    AiOutlineCheck
+} from "react-icons/ai"
 import { LoginContext } from '../App';
 
-const Tcontext = createContext(null);
+const TitleContext = createContext(null);
 
-const Delete = ({ mal_id }) => {
-    const tcontext = useContext(Tcontext);
+const DeleteButton = ({ mal_id }) => {
+    const { titles, setTitles } = useContext(TitleContext);
     const deleteTitle = () => {
         fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/remove`,
             {
@@ -23,7 +27,7 @@ const Delete = ({ mal_id }) => {
             })
             .then(res => res.json())
             .then(data => {
-                if (data.message === "deleting-success") tcontext.setTitles(tcontext.titles.filter(e => e.mal_id !== mal_id))
+                if (data.message === "deleting-success") setTitles(titles.filter(e => e.mal_id !== mal_id))
             })
     }
 
@@ -32,9 +36,9 @@ const Delete = ({ mal_id }) => {
     )
 }
 
-const Edit = () => {
+const EditButton = ({ setEdinting }) => {
     const editTitle = () => {
-        return null;
+        setEdinting(true);
     }
 
     return (
@@ -42,28 +46,64 @@ const Edit = () => {
     )
 }
 
-const Title = ({ title, settings }) => {
-    const { isLoggedIn } = useContext(LoginContext);
-    const { pathname } = useLocation();
+const ConfirmButton = ({ title, setEdinting }) => {
+    const { titles, setTitles } = useContext(TitleContext);
+    const updateTitle = () => {
+        setTitles(titles.map(t => t.mal_id === title.mal_id ? title : t));
+        setEdinting(false);
+    }
 
     return (
-        <tr>
-            <td><img className="title-thumbnail" src={title.thumbnail} alt={title.name} /></td>
-            <td>{title.name}</td>
-            <td>{title.status}</td>
-            <td>{title.rating}</td>
-            {settings.displayReasoning ? <td>{title.reasoning}</td> : undefined}
-            {isLoggedIn && pathname === "/list" &&
-                <td>
-                    <Delete mal_id={title.mal_id} />
-                    <Edit mal_id={title.mal_id} />
-                </td>
-            }
-        </tr >
+        <button className="pure-button" onClick={() => updateTitle()}><AiOutlineCheck size={20} /></button>
     )
 }
 
-const UserTitleList = ({ settings }) => {
+const Title = ({ titleData }) => {
+    const [title, setTitle] = useState(titleData);
+    const { isLoggedIn } = useContext(LoginContext);
+    const { pathname } = useLocation();
+    const [editing, setEdinting] = useState();
+
+    if (editing) {
+        return (
+            <div className="title">
+                <img className="title-thumbnail" src={title.thumbnail} alt={title.name} />
+                <div className="title-info">
+                    <h3>{title.name}</h3>
+                    <input type="text" value={title.status} onChange={e => setTitle({ ...title, status: e.target.value })} />
+                    <input type="text" value={title.rating} onChange={e => setTitle({ ...title, rating: e.target.value })} />
+                    <input type="text" value={title.reasoning} onChange={e => setTitle({ ...title, reasoning: e.target.value })} />
+                </div>
+                {isLoggedIn && pathname === "/list" &&
+                    <div className="title-actions">
+                        <DeleteButton mal_id={title.mal_id} />
+                        <ConfirmButton title={title} setEdinting={setEdinting} />
+                    </div>
+                }
+            </div>
+        )
+    } else {
+        return (
+            <div className="title">
+                <img className="title-thumbnail" src={title.thumbnail} alt={title.name} />
+                <div className="title-info">
+                    <h3>{title.name}</h3>
+                    <p>{title.status}</p>
+                    <p>{title.rating}</p>
+                    <p>{title.reasoning}</p>
+                </div>
+                {isLoggedIn && pathname === "/list" &&
+                    <div className="title-actions">
+                        <DeleteButton mal_id={title.mal_id} />
+                        <EditButton setEdinting={setEdinting} />
+                    </div>
+                }
+            </div>
+        )
+    }
+}
+
+const UserTitleList = () => {
     let [titles, setTitles] = useState([]);
     const { isLoggedIn } = useContext(LoginContext);
     let { userID } = useParams();
@@ -82,17 +122,11 @@ const UserTitleList = ({ settings }) => {
     }, [userID])
 
     return (
-        <Tcontext.Provider value={{ titles: titles, setTitles: setTitles }}>
-            <div className="pure-g">
-                <div className="pure-u-1 pure-u-md-1-3">
-                    <table className="pure-table pure-table-horizontal">
-                        <tbody>
-                            {titles.map(title => <Title key={title.id} title={title} settings={settings} />)}
-                        </tbody>
-                    </table>
-                </div>
+        <TitleContext.Provider value={{ titles: titles, setTitles: setTitles }}>
+            <div className="title-wrapper">
+                {titles.map(title => <Title key={title.id} titleData={title} />)}
             </div>
-        </Tcontext.Provider>
+        </TitleContext.Provider>
     )
 }
 

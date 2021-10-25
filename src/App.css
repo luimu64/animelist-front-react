@@ -14,9 +14,36 @@ p {
     color: var(--milkywhite);
 }
 
+.title-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    margin: 0.6em 1em 0 1em;
+    border-radius: 1em;
+    display: flex;
+    background-color: var(--green);
+}
+
+.title-info {
+    flex: 1;
+}
+
+.title > * {
+    margin: 1em;
+}
+
 .title-thumbnail {
     height: 10em;
     border-radius: 0.3em;
+}
+
+.title-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: space-around;
 }
 
 .pure-table {
