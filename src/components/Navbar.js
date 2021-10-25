@@ -1,20 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
     AiOutlineUser,
     AiOutlineLogin,
     AiOutlineUnorderedList,
     AiOutlineLogout,
-    AiOutlinePlusCircle
+    AiOutlinePlusCircle,
+    AiOutlineSearch
 } from "react-icons/ai"
 import { Link, BrowserRouter, useHistory } from "react-router-dom";
 import { LoginContext } from "../App.js"
 
 const UserSearch = () => {
     let history = useHistory();
+    const [query, setQuery] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        history.push(`/list/${query}`);
+        setQuery('');
+    }
+
     return (
-        <input className="search-input" type="text" onKeyPress={e => {
-            if (e.key === 'Enter') history.push(`/list/${e.target.value}`)
-        }} />
+        <form className="pure-form search-form" onSubmit={handleSubmit}>
+            <input type="text" value={query} onChange={e => setQuery(e.target.value)} />
+            <button type="submit" className="pure-button"><AiOutlineSearch size={30} /></button>
+        </form>
     )
 }
 

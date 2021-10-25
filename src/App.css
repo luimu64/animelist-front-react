@@ -51,9 +51,14 @@ form label {
     color: var(--milkywhite);
 }
 
-.search-input {
-    display: block;
+.search-form {
+    display: flex;
     margin: 1em;
+}
+
+.search-form > * {
+    display: block;
+    height: 100%;
 }
 
 .search-result {
