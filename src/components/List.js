@@ -32,7 +32,7 @@ const DeleteButton = ({ mal_id }) => {
     }
 
     return (
-        <button className="" onClick={() => deleteTitle()}><AiOutlineDelete size={20} /></button>
+        <button className="" onClick={() => deleteTitle()}><AiOutlineDelete size={45} /></button>
     )
 }
 
@@ -42,7 +42,7 @@ const EditButton = ({ setEditing }) => {
     }
 
     return (
-        <button className="" onClick={() => editTitle()}><AiOutlineEdit size={20} /></button>
+        <button className="" onClick={() => editTitle()}><AiOutlineEdit size={45} /></button>
     )
 }
 
@@ -74,7 +74,7 @@ const ConfirmButton = ({ title, setEditing }) => {
     }
 
     return (
-        <button className="" onClick={() => updateTitle()}><AiOutlineCheck size={20} /></button>
+        <button className="" onClick={() => updateTitle()}><AiOutlineCheck size={45} /></button>
     )
 }
 
@@ -86,37 +86,67 @@ const Title = ({ titleData }) => {
 
     if (editing) {
         return (
-            <div className="title">
-                <img className="title-thumbnail" src={title.thumbnail} alt={title.name} />
-                <div className="title-info">
-                    <h3>{title.name}</h3>
-                    <input type="text" value={title.status} onChange={e => setTitle({ ...title, status: e.target.value })} />
-                    <input type="text" value={title.rating} onChange={e => setTitle({ ...title, rating: e.target.value })} />
-                    <input type="text" value={title.reasoning} onChange={e => setTitle({ ...title, reasoning: e.target.value })} />
+            <div className="flex m-2 text-white bg-gradient-to-t from-yellow-500 via-red-500 to-pink-500 rounded-xl bg-opacity-70">
+                <div className="flex flex-1 flex-row flex-wrap m-0.5 rounded-l-xl rounded-r-3xl p-2 bg-gray-600">
+                    <img className="h-44 m-2 rounded-lg w-28" src={title.thumbnail} alt={title.name} />
+                    <div className="flex row flex-1 flex-wrap">
+                        <div className="m-2 flex flex-col">
+                            <h3 className="py-2 font-bold">{title.name}</h3>
+                            <select
+                                value={title.status}
+                                className="m-1 p-1 rounded-lg h-10 bg-gray-500"
+                                onChange={e => setTitle({ ...title, status: e.target.value })}
+                            >
+                                <option value="watching">Watching</option>
+                                <option value="planning">Planning</option>
+                                <option value="watched">Watched</option>
+                                <option value="dropped">Dropped</option>
+                            </select>
+                            <input
+                                className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                                type="text"
+                                value={title.rating}
+                                onChange={e => setTitle({ ...title, rating: e.target.value })}
+                            />
+
+                        </div>
+                        <textarea
+                            className="mx-3 md:my-3 p-1 flex-1 rounded-lg bg-gray-500"
+                            type="text"
+                            value={title.reasoning}
+                            onChange={e => setTitle({ ...title, reasoning: e.target.value })}
+                        >
+                        </textarea>
+                    </div>
                 </div>
                 {isLoggedIn && pathname === "/list" &&
-                    <div className="title-actions">
+                    <div className="flex flex-col justify-around mr-1">
                         <ConfirmButton title={title} setEditing={setEditing} />
-                    </div>
-                }
+                    </div>}
             </div>
         )
     } else {
         return (
-            <div className="title">
-                <img className="title-thumbnail" src={title.thumbnail} alt={title.name} />
-                <div className="title-info">
-                    <h3>{title.name}</h3>
-                    <p>{title.status}</p>
-                    <p>{title.rating}</p>
-                    <p>{title.reasoning}</p>
+            <div className="flex m-2 text-white bg-gradient-to-t from-yellow-500 via-red-500 to-pink-500 rounded-xl">
+                <div className="flex flex-1 flex-row m-0.5 rounded-l-xl rounded-r-3xl p-2 bg-gray-600">
+                    <img className="h-44 m-2 rounded-lg w-28" src={title.thumbnail} alt={title.name} />
+                    <div className="grid grid-cols-3">
+                        <div className="m-2 col-span-3 md:col-span-1">
+                            <h3 className="py-2 font-bold">{title.name}</h3>
+                            <p className="py-1">{title.status}</p>
+                            <p className="py-1">{title.rating}</p>
+                            <p className="py-1">{title.reasoning}</p>
+                        </div>
+                        <div className="col-span-2 m-2 hidden md:block">
+                            <p>{title.synopsis}</p>
+                        </div>
+                    </div>
                 </div>
                 {isLoggedIn && pathname === "/list" &&
-                    <div className="title-actions">
+                    <div className="flex flex-col justify-around mr-1">
                         <DeleteButton mal_id={title.mal_id} />
                         <EditButton setEditing={setEditing} />
-                    </div>
-                }
+                    </div>}
             </div>
         )
     }

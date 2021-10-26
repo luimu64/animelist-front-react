@@ -11,7 +11,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      filter: ['hover']
+      filter: ['hover'],
+      brightness: ['hover'],
     },
   },
   plugins: [],
