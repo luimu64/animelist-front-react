@@ -69,14 +69,14 @@ const LoginForm = () => {
                     value={reqBody.password}
                     onChange={e => setReqBody({ ...reqBody, password: e.target.value })}
                 />
-                <div className="flex justify-around my-2">
+                <div className="flex justify-center my-2 mx-1">
                     <button
                         type="submit"
-                        className="filter hover:brightness-90 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-md p-2 my-2">
+                        className="flex-1 filter hover:brightness-90 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-l-md p-2 mr-0.5">
                         Sign in
                     </button>
                     <Link
-                        className="filter hover:brightness-90 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-md p-2 my-2"
+                        className="filter hover:brightness-90 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-r-md p-2"
                         to={"/register"}>
                         Don't have an account?
                     </Link>

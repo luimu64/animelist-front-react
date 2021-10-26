@@ -8,7 +8,7 @@ const RegisterForm = () => {
     const { isLoggedIn } = useContext(LoginContext);
     const history = useHistory();
 
-    const Login = (e) => {
+    const register = (e) => {
         e.preventDefault();
         if (reqBody.password === reqBody.password_verify) {
             delete reqBody.password_verify;
@@ -34,20 +34,56 @@ const RegisterForm = () => {
         history.push("/list");
         return null;
     } else return (
-        <form className="" onSubmit={e => Login(e)}>
-            <fieldset>
-                <label htmlFor="username">Username</label>
-                <input type="text" name="username" placeholder="username"
-                    value={reqBody.username} onChange={handleChange} />
-                <label htmlFor="password">Password</label>
-                <input type="password" name="password" placeholder="Password"
-                    value={reqBody.password} onChange={handleChange} />
-                <label htmlFor="password-verify">Password again</label>
-                <input type="password" name="password_verify" placeholder="Password"
-                    value={reqBody.password_verify} onChange={handleChange} />
-                <button type="submit" className="" >Sign up</button>
-            </fieldset>
-        </form>
+        <div className="flex justify-center" >
+            <form
+                className="flex flex-col col-span-auto text-white m-10"
+                onSubmit={register}>
+                <label
+                    className="m-2"
+                    htmlFor="username">
+                    Username
+                </label>
+                <input
+                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                    type="text"
+                    name="username"
+                    placeholder="username"
+                    value={reqBody.username}
+                    onChange={handleChange}
+                />
+                <label
+                    className="m-2"
+                    htmlFor="password">
+                    Password
+                </label>
+                <input
+                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={reqBody.password}
+                    onChange={handleChange}
+                />
+                <label
+                    className="m-2"
+                    htmlFor="password-verify">
+                    Password again
+                </label>
+                <input
+                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                    type="password"
+                    name="password_verify"
+                    placeholder="Password"
+                    value={reqBody.password_verify}
+                    onChange={handleChange}
+                />
+                <button
+                    type="submit"
+                    className="filter hover:brightness-90 bg-gradient-to-t from-yellow-500 via-red-500 to-pink-500 rounded-md p-2 mt-2 mx-1">
+                    Sign up
+                </button>
+            </form>
+        </div>
     )
 }
 
