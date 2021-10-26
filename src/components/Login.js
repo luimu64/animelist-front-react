@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../App.js"
 
 import {
-    Route,
     Redirect,
     Link
 } from "react-router-dom";
@@ -13,9 +12,7 @@ const Logout = () => {
     const { setLoginStatus } = useContext(LoginContext);
     useEffect(() => setLoginStatus(false))
     return (
-        <Route>
-            <Redirect to={"/login"} />
-        </Route>
+        <Redirect to={"/login"} />
     )
 }
 
@@ -42,21 +39,50 @@ const LoginForm = () => {
             })
     }
 
-    return (isLoggedIn ? <Route><Redirect to="/list" /></Route> :
-        (<form className="" onSubmit={e => Login(e)}>
-            <fieldset>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" placeholder="username"
-                    value={reqBody.username} onChange={e => setReqBody({ ...reqBody, username: e.target.value })} />
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" placeholder="Password"
-                    value={reqBody.password} onChange={e => setReqBody({ ...reqBody, password: e.target.value })} />
-                <button type="submit" className="" >Sign in</button>
-                <Route>
-                    <Link className="" to={"/register"}>Don't have an account?</Link>
-                </Route>
-            </fieldset>
-        </form>)
+    return (isLoggedIn ? <Redirect to="/list" /> :
+        <div className="flex justify-center" >
+            <form className="flex flex-col col-span-auto text-white m-10"
+                onSubmit={Login}>
+                <label
+                    htmlFor="username"
+                    className="m-2">
+                    Username
+                </label>
+                <input
+                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                    type="text"
+                    id="username"
+                    placeholder="username"
+                    value={reqBody.username}
+                    onChange={e => setReqBody({ ...reqBody, username: e.target.value })}
+                />
+                <label
+                    className="m-2"
+                    htmlFor="password">
+                    Password
+                </label>
+                <input
+                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    value={reqBody.password}
+                    onChange={e => setReqBody({ ...reqBody, password: e.target.value })}
+                />
+                <div className="flex justify-around my-2">
+                    <button
+                        type="submit"
+                        className="filter hover:brightness-90 bg-gradient-to-r from-yellow-500 via-red-500 to-pink-500 rounded-md p-2 my-2">
+                        Sign in
+                    </button>
+                    <Link
+                        className="filter hover:brightness-90 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-md p-2 my-2"
+                        to={"/register"}>
+                        Don't have an account?
+                    </Link>
+                </div>
+            </form>
+        </div>
     )
 }
 
