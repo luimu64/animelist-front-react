@@ -20,7 +20,7 @@ const UserSearch = ({ setOpen }) => {
         e.preventDefault();
         history.push(`/list/${query}`);
         setQuery('');
-        setOpen(false);
+        setOpen(window.innerWidth > 1024);
     }
 
     return (
@@ -35,7 +35,7 @@ const NavLink = ({ setOpen, icon, text, route }) => {
     return (
         <Link className="text-white m-2 flex lg:self-center"
             to={route}
-            onClick={() => setOpen(false)} >
+            onClick={() => setOpen(window.innerWidth > 1024)} >
             {icon}
             <p className="my-1 mx-2 font-semibold text-lg self-center">{text}</p>
         </Link >
@@ -44,10 +44,10 @@ const NavLink = ({ setOpen, icon, text, route }) => {
 
 const Navbar = ({ children }) => {
     const { isLoggedIn } = useContext(LoginContext);
-    const [open, setOpen] = useState(window.innerWidth >= 1024);
+    const [open, setOpen] = useState(window.innerWidth > 1024);
 
     window.addEventListener("resize", () => {
-        setOpen(window.innerWidth >= 1024);
+        setOpen(window.innerWidth > 1024);
     });
 
     return (
