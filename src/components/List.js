@@ -32,7 +32,7 @@ const DeleteButton = ({ mal_id }) => {
     }
 
     return (
-        <button className="pure-button" onClick={() => deleteTitle()}><AiOutlineDelete size={20} /></button>
+        <button className="" onClick={() => deleteTitle()}><AiOutlineDelete size={20} /></button>
     )
 }
 
@@ -42,7 +42,7 @@ const EditButton = ({ setEditing }) => {
     }
 
     return (
-        <button className="pure-button" onClick={() => editTitle()}><AiOutlineEdit size={20} /></button>
+        <button className="" onClick={() => editTitle()}><AiOutlineEdit size={20} /></button>
     )
 }
 
@@ -74,7 +74,7 @@ const ConfirmButton = ({ title, setEditing }) => {
     }
 
     return (
-        <button className="pure-button" onClick={() => updateTitle()}><AiOutlineCheck size={20} /></button>
+        <button className="" onClick={() => updateTitle()}><AiOutlineCheck size={20} /></button>
     )
 }
 

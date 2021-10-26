@@ -21,9 +21,9 @@ const UserSearch = () => {
     }
 
     return (
-        <form className="pure-form search-form" onSubmit={handleSubmit}>
+        <form className="" onSubmit={handleSubmit}>
             <input type="text" value={query} onChange={e => setQuery(e.target.value)} />
-            <button type="submit" className="pure-button"><AiOutlineSearch size={30} /></button>
+            <button type="submit" className=""><AiOutlineSearch size={30} /></button>
         </form>
     )
 }

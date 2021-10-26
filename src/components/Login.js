@@ -43,7 +43,7 @@ const LoginForm = () => {
     }
 
     return (isLoggedIn ? <Route><Redirect to="/list" /></Route> :
-        (<form className="pure-form pure-form-stacked" onSubmit={e => Login(e)}>
+        (<form className="" onSubmit={e => Login(e)}>
             <fieldset>
                 <label htmlFor="username">Username</label>
                 <input type="text" id="username" placeholder="username"
@@ -51,9 +51,9 @@ const LoginForm = () => {
                 <label htmlFor="password">Password</label>
                 <input type="password" id="password" placeholder="Password"
                     value={reqBody.password} onChange={e => setReqBody({ ...reqBody, password: e.target.value })} />
-                <button type="submit" className="pure-button pure-button-primary" >Sign in</button>
+                <button type="submit" className="" >Sign in</button>
                 <Route>
-                    <Link className="pure-button" to={"/register"}>Don't have an account?</Link>
+                    <Link className="" to={"/register"}>Don't have an account?</Link>
                 </Route>
             </fieldset>
         </form>)

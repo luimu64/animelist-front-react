@@ -1,5 +1,4 @@
 import './App.css';
-import 'purecss'
 import UserTitleList from './components/List';
 import { LoginForm, Logout } from './components/Login';
 import AddTitlePage from './components/AddTitle';

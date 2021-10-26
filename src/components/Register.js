@@ -34,7 +34,7 @@ const RegisterForm = () => {
         history.push("/list");
         return null;
     } else return (
-        <form className="pure-form pure-form-stacked" onSubmit={e => Login(e)}>
+        <form className="" onSubmit={e => Login(e)}>
             <fieldset>
                 <label htmlFor="username">Username</label>
                 <input type="text" name="username" placeholder="username"
@@ -45,7 +45,7 @@ const RegisterForm = () => {
                 <label htmlFor="password-verify">Password again</label>
                 <input type="password" name="password_verify" placeholder="Password"
                     value={reqBody.password_verify} onChange={handleChange} />
-                <button type="submit" className="pure-button pure-button-primary" >Sign up</button>
+                <button type="submit" className="" >Sign up</button>
             </fieldset>
         </form>
     )

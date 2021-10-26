@@ -33,7 +33,7 @@ const AddForm = ({ titleData, setTitleData }) => {
                     <p>{titleData.data.synopsis}</p>
                 </div>
             </div>
-            <form className="pure-form pure-form-stacked" onSubmit={sendData}>
+            <form className="" onSubmit={sendData}>
                 <fieldset>
                     <label htmlFor="status">Status</label>
                     <select name="status" defaultValue="none" onChange={e => setTitleData({ ...titleData, status: e.target.value })}>
@@ -47,7 +47,7 @@ const AddForm = ({ titleData, setTitleData }) => {
                     <input name="rating" type="text" value={titleData.rating} onChange={e => setTitleData({ ...titleData, rating: e.target.value })} />
                     <label htmlFor="reasoning">Reasoning</label>
                     <textarea name="reasoning" value={titleData.reasoning} onChange={e => setTitleData({ ...titleData, reasoning: e.target.value })}></textarea>
-                    <button type="submit" className="pure-button">Add</button>
+                    <button type="submit" className="">Add</button>
                 </fieldset>
             </form>
         </div >
@@ -73,10 +73,10 @@ const AddTitlePage = () => {
         return (
             <div>
                 <h1>Search for anime</h1>
-                <form className="pure-form" onSubmit={search}>
+                <form className="" onSubmit={search}>
                     <fieldset>
                         <input type="text" value={query} onChange={e => setQuery(e.target.value)} />
-                        <button type="submit" className="pure-button pure-button-primary">Search</button>
+                        <button type="submit" className="">Search</button>
                     </fieldset>
                 </form>
                 {searchResults.map(result => <SearchResult key={result.mal_id} data={result} titleData={titleData} setTitleData={setTitleData} />)}
@@ -84,7 +84,7 @@ const AddTitlePage = () => {
         )
     } else return (
         <div>
-            <button className="pure-button" onClick={() => setTitleData({ ...titleData, data: {} })}>Back</button>
+            <button className="" onClick={() => setTitleData({ ...titleData, data: {} })}>Back</button>
             <AddForm titleData={titleData} setTitleData={setTitleData} />
         </div>
     )
