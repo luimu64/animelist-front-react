@@ -87,7 +87,7 @@ const Title = ({ titleData }) => {
     if (editing) {
         return (
             <div className="flex m-2 text-white bg-gradient-to-t from-yellow-500 via-red-500 to-pink-500 rounded-xl bg-opacity-70">
-                <div className="flex flex-1 flex-row flex-wrap m-0.5 rounded-l-xl rounded-r-3xl p-2 bg-gray-600">
+                <div className="flex flex-1 flex-row flex-wrap m-0.5 rounded-xl p-2 bg-gray-600">
                     <img className="h-44 m-2 rounded-lg w-28" src={title.thumbnail} alt={title.name} />
                     <div className="flex row flex-1 flex-wrap">
                         <div className="m-2 flex flex-col">
@@ -128,7 +128,7 @@ const Title = ({ titleData }) => {
     } else {
         return (
             <div className="flex m-2 text-white bg-gradient-to-t from-yellow-500 via-red-500 to-pink-500 rounded-xl">
-                <div className="flex flex-1 flex-row m-0.5 rounded-l-xl rounded-r-3xl p-2 bg-gray-600">
+                <div className="flex flex-1 flex-row m-0.5 rounded-xl p-2 bg-gray-600">
                     <img className="h-44 m-2 rounded-lg w-28" src={title.thumbnail} alt={title.name} />
                     <div className="grid grid-cols-3">
                         <div className="m-2 col-span-3 md:col-span-1">
