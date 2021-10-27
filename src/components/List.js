@@ -131,7 +131,7 @@ const CardPreviewing = ({ title, setEditing, isLoggedIn, pathname }) => {
                         <h3 className="py-2 font-bold">{title.name}</h3>
                         <p className="py-1">{title.status}</p>
                         <p className="py-1">{title.rating}</p>
-                        <p className="py-1">{title.reasoning}</p>
+                        <p className="py-1 overflow-ellipsis overflow-hidden">{title.reasoning}</p>
                     </div>
                     <div className="col-span-2 m-2 hidden md:block">
                         <p>{title.synopsis}</p>
