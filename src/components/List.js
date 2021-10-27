@@ -27,7 +27,7 @@ const DeleteButton = ({ mal_id }) => {
             })
             .then(res => res.json())
             .then(data => {
-                if (data.message === "deleting-success") setTitles(titles.filter(e => e.mal_id !== mal_id))
+                if (data.hasOwnProperty('message')) setTitles(titles.filter(e => e.mal_id !== mal_id))
             })
     }
 
@@ -66,7 +66,7 @@ const ConfirmButton = ({ title, setEditing }) => {
             })
             .then(res => res.json())
             .then(data => {
-                if (data.message === "editing-success") {
+                if (data.hasOwnProperty('message')) {
                     setTitles(titles.map(t => t.mal_id === title.mal_id ? title : t));
                     setEditing(false);
                 }
