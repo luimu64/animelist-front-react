@@ -26,7 +26,7 @@ const UserSearch = ({ setOpen }) => {
     return (
         <form className="flex max-h-full mr-2" onSubmit={handleSubmit}>
             <input type="text" className="m-2 p-2 rounded-lg text-lg font-semibold bg-gray-500 text-white" value={query} onChange={e => setQuery(e.target.value)} />
-            <button type="submit" className="text-white filter hover:brightness-90 bg-gradient-to-t from-yellow-400 via-red-500 to-pink-500 rounded-md p-2 my-2"><AiOutlineSearch size={30} /></button>
+            <button type="submit" className="text-white filter hover:brightness-90 bg-red-500 rounded-md p-2 my-2"><AiOutlineSearch size={30} /></button>
         </form>
     )
 }

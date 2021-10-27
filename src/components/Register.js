@@ -79,7 +79,7 @@ const RegisterForm = () => {
                 />
                 <button
                     type="submit"
-                    className="filter hover:brightness-90 bg-gradient-to-t from-yellow-500 via-red-500 to-pink-500 rounded-md p-2 mt-2 mx-1">
+                    className="filter hover:brightness-90 bg-red-500 rounded-md p-2 mt-2 mx-1">
                     Sign up
                 </button>
             </form>
