@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AiOutlineRollback } from 'react-icons/ai'
 
 const SearchResult = ({ data, titleData, setTitleData }) => {
     return (
@@ -30,30 +31,44 @@ const AddForm = ({ titleData, setTitleData }) => {
     }
 
     return (
-        <div>
-            <div className="selected-anime">
-                <img src={titleData.data.image_url} alt="anime title thumbnail" />
-                <div>
-                    <h2>{titleData.data.title}</h2>
-                    <p>{titleData.data.synopsis}</p>
+        <div className="flex flex-col items-center">
+            <div className="p-5 w-full sm:w-3/4 md:w-2/3 xl:w-2/4 2xl:w-1/4 flex flex-col sm:flex-row">
+                <img className="rounded-lg w-32" src={titleData.data.image_url} alt="anime title thumbnail" />
+                <div className="flex flex-col m-5">
+                    <h2 className="font-bold text-xl">{titleData.data.title}</h2>
+                    <p className="max-h-32 overflow-ellipsis overflow-hidden">{titleData.data.synopsis}</p>
                 </div>
             </div>
-            <form className="" onSubmit={sendData}>
-                <fieldset>
-                    <label htmlFor="status">Status</label>
-                    <select name="status" defaultValue="none" onChange={e => setTitleData({ ...titleData, status: e.target.value })}>
-                        <option value="watching">Watching</option>
-                        <option value="planning">Planning</option>
-                        <option value="watched">Watched</option>
-                        <option value="dropped">Dropped</option>
-                        <option disabled={true} value="none">Select watch status</option>
-                    </select>
-                    <label htmlFor="rating">Rating</label>
-                    <input name="rating" type="text" value={titleData.rating} onChange={e => setTitleData({ ...titleData, rating: e.target.value })} />
-                    <label htmlFor="reasoning">Reasoning</label>
-                    <textarea name="reasoning" value={titleData.reasoning} onChange={e => setTitleData({ ...titleData, reasoning: e.target.value })}></textarea>
-                    <button type="submit" className="">Add</button>
-                </fieldset>
+            <form className="flex flex-col w-full sm:w-3/4 md:w-2/3 xl:w-2/4 2xl:w-1/4" onSubmit={sendData}>
+                <label htmlFor="status">Status</label>
+                <select
+                    name="status"
+                    defaultValue="none"
+                    onChange={e => setTitleData({ ...titleData, status: e.target.value })}
+                    className="m-1 p-1 rounded-lg h-10 bg-gray-500"
+                >
+                    <option value="watching">Watching</option>
+                    <option value="planning">Planning</option>
+                    <option value="watched">Watched</option>
+                    <option value="dropped">Dropped</option>
+                    <option disabled={true} value="none">Select watch status</option>
+                </select>
+                <label htmlFor="rating">Rating</label>
+                <input
+                    name="rating"
+                    type="text"
+                    value={titleData.rating}
+                    onChange={e => setTitleData({ ...titleData, rating: e.target.value })}
+                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                />
+                <label htmlFor="reasoning">Reasoning</label>
+                <textarea
+                    name="reasoning"
+                    value={titleData.reasoning}
+                    onChange={e => setTitleData({ ...titleData, reasoning: e.target.value })}
+                    className="mx-1 my-3 p-1 flex-1 rounded-lg bg-gray-500"
+                ></textarea>
+                <button type="submit" className="filter hover:brightness-90 bg-red-500 rounded-md p-2 m-1">Add</button>
             </form>
         </div >
     )
@@ -97,8 +112,12 @@ const AddTitlePage = () => {
             </div>
         )
     } else return (
-        <div>
-            <button className="" onClick={() => setTitleData({ ...titleData, data: {} })}>Back</button>
+        <div className="text-white">
+            <button
+                className="filter hover:brightness-90 bg-red-500 rounded-md p-2 ml-2"
+                onClick={() => setTitleData({ ...titleData, data: {} })} >
+                <AiOutlineRollback size={30} />
+            </button>
             <AddForm titleData={titleData} setTitleData={setTitleData} />
         </div>
     )
