@@ -54,47 +54,50 @@ const Navbar = ({ children }) => {
         <BrowserRouter>
             <nav className="flex bg-gray-700 p-2 flex-col lg:flex-row rounded-b-lg mb-2">
                 <button className="block lg:hidden m-2 text-white" onClick={() => setOpen(!open)}><AiOutlineMenu size={40} /></button>
-                {open && <AnimatePresence>
-                    <motion.div
-                        className="flex flex-col lg:flex-row flex-1"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                {open &&
+                    <AnimatePresence
+                        initial={false}
                     >
-                        {isLoggedIn && <NavLink
-                            icon={<AiOutlineUnorderedList size={40} />}
-                            text={"Animelist"}
-                            route="/list"
-                            setOpen={setOpen} />
+                        <motion.div
+                            className="flex flex-col lg:flex-row flex-1"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            {isLoggedIn && <NavLink
+                                icon={<AiOutlineUnorderedList size={40} />}
+                                text={"Animelist"}
+                                route="/list"
+                                setOpen={setOpen} />
 
-                        }
-                        {isLoggedIn && <NavLink
-                            icon={<AiOutlinePlusCircle size={40} />}
-                            text={"Add new"}
-                            route="/title/add"
-                            setOpen={setOpen} />
-                        }
-                        {isLoggedIn && <NavLink
-                            icon={<AiOutlineUser size={40} />}
-                            text={"Settings"}
-                            route="/user"
-                            setOpen={setOpen} />
-                        }
-                        {isLoggedIn ?
-                            <NavLink
-                                icon={<AiOutlineLogout size={40} />}
-                                text={"Logout"}
-                                route="/logout"
-                                setOpen={setOpen} /> :
-                            <NavLink
-                                icon={<AiOutlineLogin size={40} />}
-                                text={"Login"}
-                                route="/login"
-                                setOpen={setOpen} />}
-                        <span className="flex-1" />
-                        <UserSearch setOpen={setOpen} />
-                    </motion.div>
-                </AnimatePresence>}
+                            }
+                            {isLoggedIn && <NavLink
+                                icon={<AiOutlinePlusCircle size={40} />}
+                                text={"Add new"}
+                                route="/title/add"
+                                setOpen={setOpen} />
+                            }
+                            {isLoggedIn && <NavLink
+                                icon={<AiOutlineUser size={40} />}
+                                text={"Settings"}
+                                route="/user"
+                                setOpen={setOpen} />
+                            }
+                            {isLoggedIn ?
+                                <NavLink
+                                    icon={<AiOutlineLogout size={40} />}
+                                    text={"Logout"}
+                                    route="/logout"
+                                    setOpen={setOpen} /> :
+                                <NavLink
+                                    icon={<AiOutlineLogin size={40} />}
+                                    text={"Login"}
+                                    route="/login"
+                                    setOpen={setOpen} />}
+                            <span className="flex-1" />
+                            <UserSearch setOpen={setOpen} />
+                        </motion.div>
+                    </AnimatePresence>}
             </nav>
             {children}
         </BrowserRouter>
