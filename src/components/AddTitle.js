@@ -2,9 +2,14 @@ import React, { useState } from "react";
 
 const SearchResult = ({ data, titleData, setTitleData }) => {
     return (
-        <div className="search-result" onClick={() => setTitleData({ ...titleData, data: data })}>
-            <h5>{data.title}</h5>
-            <p>{data.synopsis}</p>
+        <div
+            className="flex m-2 text-white bg-red-500 rounded-xl w-60 h-60"
+            onClick={() => setTitleData({ ...titleData, data: data })}
+        >
+            <div className="flex flex-1 flex-col m-0.5 rounded-xl p-2 bg-gray-600 overflow-ellipsis overflow-hidden">
+                <h5 className="font-bold">{data.title}</h5>
+                <p className="pb-1">{data.synopsis}</p>
+            </div>
         </div>
     )
 }
@@ -71,15 +76,24 @@ const AddTitlePage = () => {
 
     if (Object.keys(titleData.data).length === 0) {
         return (
-            <div>
-                <h1>Search for anime</h1>
-                <form className="" onSubmit={search}>
-                    <fieldset>
-                        <input type="text" value={query} onChange={e => setQuery(e.target.value)} />
-                        <button type="submit" className="">Search</button>
-                    </fieldset>
+            <div className="text-white flex flex-col items-center justify-center">
+                <h1 className="font-bold text-xl">Search anime by name</h1>
+                <form className="flex flex-col" onSubmit={search}>
+                    <input
+                        type="text"
+                        value={query}
+                        onChange={e => setQuery(e.target.value)}
+                        className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                    />
+                    <button
+                        type="submit"
+                        className="filter hover:brightness-90 bg-red-500 rounded-md p-2 mt-2 mx-1">
+                        Search
+                    </button>
                 </form>
-                {searchResults.map(result => <SearchResult key={result.mal_id} data={result} titleData={titleData} setTitleData={setTitleData} />)}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-5">
+                    {searchResults.map(result => <SearchResult key={result.mal_id} data={result} titleData={titleData} setTitleData={setTitleData} />)}
+                </div>
             </div>
         )
     } else return (
