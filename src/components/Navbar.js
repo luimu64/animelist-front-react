@@ -77,7 +77,7 @@ const Navbar = ({ children }) => {
                                 route="/title/add"
                                 setOpen={setOpen} />
                             }
-                            {isLoggedIn && <NavLink
+                            {isLoggedIn && false && <NavLink
                                 icon={<AiOutlineUser size={40} />}
                                 text={"Settings"}
                                 route="/user"
