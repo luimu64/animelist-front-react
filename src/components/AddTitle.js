@@ -19,7 +19,7 @@ const AddForm = ({ titleData, setTitleData }) => {
     const sendData = (e) => {
         console.log(titleData)
         e.preventDefault();
-        fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/add`, {
+        fetch(`${process.env.REACT_APP_APIURL}/list/add`, {
             method: 'POST',
             body: JSON.stringify(titleData),
             headers: {

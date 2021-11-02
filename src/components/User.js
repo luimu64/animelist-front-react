@@ -5,7 +5,7 @@ const ChangePassword = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`${process.env.REACT_APP_APIURL}/aniapi/user/password/change`,
+        fetch(`${process.env.REACT_APP_APIURL}/user/password/change`,
             {
                 method: 'POST',
                 body: JSON.stringify(formData),

@@ -13,7 +13,7 @@ const TitleContext = createContext(null);
 const DeleteButton = ({ mal_id }) => {
     const { titles, setTitles } = useContext(TitleContext);
     const deleteTitle = () => {
-        fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/remove`,
+        fetch(`${process.env.REACT_APP_APIURL}/list/remove`,
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -49,7 +49,7 @@ const EditButton = ({ setEditing }) => {
 const ConfirmButton = ({ title, setEditing }) => {
     const { titles, setTitles } = useContext(TitleContext);
     const updateTitle = () => {
-        fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/edit`,
+        fetch(`${process.env.REACT_APP_APIURL}/list/edit`,
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -179,7 +179,7 @@ const UserTitleList = () => {
     if (isLoggedIn) userID = localStorage.getItem("userID");
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_APIURL}/aniapi/list/get/${userID}`,
+        fetch(`${process.env.REACT_APP_APIURL}/list/get/${userID}`,
             {
                 headers: {
                     'Content-Type': 'application/json',

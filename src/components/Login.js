@@ -21,7 +21,7 @@ const LoginForm = () => {
     const { isLoggedIn, setLoginStatus } = useContext(LoginContext);
     const Login = (e) => {
         e.preventDefault();
-        fetch(`${process.env.REACT_APP_APIURL}/aniapi/login`,
+        fetch(`${process.env.REACT_APP_APIURL}/login`,
             {
                 method: 'POST',
                 body: JSON.stringify(reqBody),
