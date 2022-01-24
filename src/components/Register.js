@@ -1,27 +1,26 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { LoginContext } from "../App";
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { getAuth } from "firebase/auth";
+import { app } from "../firebase-config";
 
 const RegisterForm = () => {
-    const [reqBody, setReqBody] = useState({ username: "", password: "", password_verify: "" });
-    const { isLoggedIn } = useContext(LoginContext);
+    const [reqBody, setReqBody] = useState({ username: "", email: "", password: "", password_verify: "" });
     const history = useHistory();
+    const auth = getAuth(app);
+    const [
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth);
+
 
     const register = (e) => {
         e.preventDefault();
         if (reqBody.password === reqBody.password_verify) {
-            delete reqBody.password_verify;
-            fetch(`${process.env.REACT_APP_APIURL}/register`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify(reqBody),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => res.json())
-                .then(data => console.log(data))
+            createUserWithEmailAndPassword(reqBody.email, reqBody.password)
         }
     }
 
@@ -30,10 +29,7 @@ const RegisterForm = () => {
         setReqBody(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    if (isLoggedIn) {
-        history.push("/list");
-        return null;
-    } else return (
+    return (
         <div className="flex justify-center" >
             <form
                 className="flex flex-col col-span-auto text-white m-10"
@@ -47,8 +43,21 @@ const RegisterForm = () => {
                     className="m-1 p-2 rounded-lg h-10 bg-gray-500"
                     type="text"
                     name="username"
-                    placeholder="username"
+                    placeholder="Username"
                     value={reqBody.username}
+                    onChange={handleChange}
+                />
+                <label
+                    className="m-2"
+                    htmlFor="email">
+                    Email
+                </label>
+                <input
+                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    value={reqBody.email}
                     onChange={handleChange}
                 />
                 <label
@@ -62,6 +71,7 @@ const RegisterForm = () => {
                     name="password"
                     placeholder="Password"
                     value={reqBody.password}
+                    minLength={6}
                     onChange={handleChange}
                 />
                 <label
@@ -75,6 +85,7 @@ const RegisterForm = () => {
                     name="password_verify"
                     placeholder="Password"
                     value={reqBody.password_verify}
+                    minLength={6}
                     onChange={handleChange}
                 />
                 <button

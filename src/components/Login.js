@@ -1,60 +1,49 @@
-import React, { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../App.js"
+import React, { useState, useContext } from "react";
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { getAuth } from "firebase/auth";
+import { app } from '../firebase-config';
 
 import {
-    Redirect,
     Link
 } from "react-router-dom";
 
 const Logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userID");
-    const { setLoginStatus } = useContext(LoginContext);
-    useEffect(() => setLoginStatus(false))
-    return (
-        <Redirect to={"/login"} />
-    )
+    const auth = getAuth();
+    auth.signOut();
+    return null;
 }
 
 const LoginForm = () => {
-    const [reqBody, setReqBody] = useState({ username: "", password: "" });
-    const { isLoggedIn, setLoginStatus } = useContext(LoginContext);
+    const auth = getAuth(app);
+    const [reqBody, setReqBody] = useState({ email: "", password: "" });
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+
     const Login = (e) => {
         e.preventDefault();
-        fetch(`${process.env.REACT_APP_APIURL}/login`,
-            {
-                method: 'POST',
-                body: JSON.stringify(reqBody),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.token !== undefined && data.userID !== undefined) {
-                    localStorage.setItem("token", data.token);
-                    localStorage.setItem("userID", Number(data.userID));
-                    setLoginStatus(true);
-                }
-            })
+        signInWithEmailAndPassword(reqBody.email, reqBody.password);
     }
 
-    return (isLoggedIn ? <Redirect to="/list" /> :
+    return (
         <div className="flex justify-center" >
             <form className="flex flex-col col-span-auto text-white m-10"
                 onSubmit={Login}>
                 <label
                     htmlFor="username"
                     className="m-2">
-                    Username
+                    Email
                 </label>
                 <input
                     className="m-1 p-2 rounded-lg h-10 bg-gray-500"
                     type="text"
-                    id="username"
-                    placeholder="username"
-                    value={reqBody.username}
-                    onChange={e => setReqBody({ ...reqBody, username: e.target.value })}
+                    id="email"
+                    placeholder="email"
+                    value={reqBody.email}
+                    onChange={e => setReqBody({ ...reqBody, email: e.target.value })}
                 />
                 <label
                     className="m-2"

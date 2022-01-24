@@ -6,7 +6,6 @@ import {
     AiOutlineEdit,
     AiOutlineCheck
 } from "react-icons/ai"
-import { LoginContext } from '../App';
 
 const TitleContext = createContext(null);
 
@@ -78,7 +77,7 @@ const ConfirmButton = ({ title, setEditing }) => {
     )
 }
 
-const CardEditing = ({ title, setTitle, setEditing, isLoggedIn, pathname }) => {
+const CardEditing = ({ title, setTitle, setEditing, pathname }) => {
     return (
         <div className="flex m-2 text-white bg-red-500 rounded-xl">
             <div className="flex flex-1 flex-row flex-wrap m-0.5 rounded-xl p-2 bg-gray-600">
@@ -113,7 +112,7 @@ const CardEditing = ({ title, setTitle, setEditing, isLoggedIn, pathname }) => {
                     </textarea>
                 </div>
             </div>
-            {isLoggedIn && pathname === "/list" &&
+            {pathname === "/list" &&
                 <div className="flex flex-col justify-around mr-1">
                     <ConfirmButton title={title} setEditing={setEditing} />
                 </div>}
@@ -121,7 +120,7 @@ const CardEditing = ({ title, setTitle, setEditing, isLoggedIn, pathname }) => {
     )
 }
 
-const CardPreviewing = ({ title, setEditing, isLoggedIn, pathname }) => {
+const CardPreviewing = ({ title, setEditing, pathname }) => {
     return (
         <div className="flex m-2 text-white bg-red-500 rounded-xl bg-opacity-90">
             <div className="flex flex-1 flex-row m-0.5 rounded-xl p-2 bg-gray-600">
@@ -138,7 +137,7 @@ const CardPreviewing = ({ title, setEditing, isLoggedIn, pathname }) => {
                     </div>
                 </div>
             </div>
-            {isLoggedIn && pathname === "/list" &&
+            {pathname === "/list" &&
                 <div className="flex flex-col justify-around mr-1">
                     <DeleteButton mal_id={title.mal_id} />
                     <EditButton setEditing={setEditing} />
@@ -149,7 +148,6 @@ const CardPreviewing = ({ title, setEditing, isLoggedIn, pathname }) => {
 
 const Title = ({ titleData }) => {
     const [title, setTitle] = useState(titleData);
-    const { isLoggedIn } = useContext(LoginContext);
     const { pathname } = useLocation();
     const [editing, setEditing] = useState(false);
 
@@ -158,7 +156,6 @@ const Title = ({ titleData }) => {
             title={title}
             setTitle={setTitle}
             setEditing={setEditing}
-            isLoggedIn={isLoggedIn}
             pathname={pathname}
         />
     }
@@ -166,7 +163,6 @@ const Title = ({ titleData }) => {
         return <CardPreviewing
             title={title}
             setEditing={setEditing}
-            isLoggedIn={isLoggedIn}
             pathname={pathname}
         />
     }
@@ -174,9 +170,7 @@ const Title = ({ titleData }) => {
 
 const UserTitleList = () => {
     let [titles, setTitles] = useState([]);
-    const { isLoggedIn } = useContext(LoginContext);
     let { userID } = useParams();
-    if (isLoggedIn) userID = localStorage.getItem("userID");
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_APIURL}/list/get/${userID}`,

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
     AiOutlineUser,
     AiOutlineLogin,
@@ -9,8 +9,10 @@ import {
     AiOutlineMenu
 } from "react-icons/ai"
 import { Link, BrowserRouter, useHistory } from "react-router-dom";
-import { LoginContext } from "../App.js"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion";
+import { getAuth } from "firebase/auth";
+import { app } from "../firebase-config";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const UserSearch = ({ setOpen }) => {
     let history = useHistory();
@@ -43,7 +45,8 @@ const NavLink = ({ setOpen, icon, text, route }) => {
 }
 
 const Navbar = ({ children }) => {
-    const { isLoggedIn } = useContext(LoginContext);
+    const auth = getAuth(app);
+    const [user, loading, error] = useAuthState(auth);
     const [open, setOpen] = useState(window.innerWidth > 1024);
 
     window.addEventListener("resize", () => {
@@ -64,36 +67,36 @@ const Navbar = ({ children }) => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                         >
-                            {isLoggedIn && <NavLink
+                            {user && <NavLink
                                 icon={<AiOutlineUnorderedList size={40} />}
                                 text={"Animelist"}
                                 route="/list"
                                 setOpen={setOpen} />
-
                             }
-                            {isLoggedIn && <NavLink
+                            {user && <NavLink
                                 icon={<AiOutlinePlusCircle size={40} />}
                                 text={"Add new"}
                                 route="/title/add"
                                 setOpen={setOpen} />
                             }
-                            {isLoggedIn && false && <NavLink
+                            {user && <NavLink
                                 icon={<AiOutlineUser size={40} />}
                                 text={"Settings"}
                                 route="/user"
                                 setOpen={setOpen} />
                             }
-                            {isLoggedIn ?
-                                <NavLink
-                                    icon={<AiOutlineLogout size={40} />}
-                                    text={"Logout"}
-                                    route="/logout"
-                                    setOpen={setOpen} /> :
-                                <NavLink
-                                    icon={<AiOutlineLogin size={40} />}
-                                    text={"Login"}
-                                    route="/login"
-                                    setOpen={setOpen} />}
+                            {user && <NavLink
+                                icon={<AiOutlineLogout size={40} />}
+                                text={"Logout"}
+                                route="/logout"
+                                setOpen={setOpen} />
+                            }
+                            {!user && <NavLink
+                                icon={<AiOutlineLogin size={40} />}
+                                text={"Login"}
+                                route="/login"
+                                setOpen={setOpen} />
+                            }
                             <span className="flex-1" />
                             <UserSearch setOpen={setOpen} />
                         </motion.div>
