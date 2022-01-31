@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineRollback } from 'react-icons/ai'
+import { collection, addDoc } from "firebase/firestore";
+import { db } from '../../firebase-config';
 
 const SearchResult = ({ data, titleData, setTitleData }) => {
     return (
@@ -16,18 +18,19 @@ const SearchResult = ({ data, titleData, setTitleData }) => {
 }
 
 const AddForm = ({ titleData, setTitleData }) => {
-    const sendData = (e) => {
+    const sendData = async (e) => {
         console.log(titleData)
         e.preventDefault();
-        fetch(`${process.env.REACT_APP_APIURL}/list/add`, {
-            method: 'POST',
-            body: JSON.stringify(titleData),
-            headers: {
-                'Authentication': localStorage.getItem("token"),
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .then(data => console.log(data))
+        try {
+            const docRef = await addDoc(collection(db, "users"), {
+                first: "Ada",
+                last: "Lovelace",
+                born: 1815
+            });
+            console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
     }
 
     return (

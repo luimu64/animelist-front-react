@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
-import { app } from '../firebase-config';
+import { app } from '../../firebase-config';
 
 import {
     Link
@@ -23,7 +23,7 @@ const LoginForm = () => {
         error,
     ] = useSignInWithEmailAndPassword(auth);
 
-    const Login = (e) => {
+    const Login = async (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(reqBody.email, reqBody.password);
     }

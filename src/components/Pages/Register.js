@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
-import { app } from "../firebase-config";
+import { app } from '../../firebase-config';
 
 const RegisterForm = () => {
     const [reqBody, setReqBody] = useState({ username: "", email: "", password: "", password_verify: "" });
@@ -17,10 +17,10 @@ const RegisterForm = () => {
     ] = useCreateUserWithEmailAndPassword(auth);
 
 
-    const register = (e) => {
+    const register = async (e) => {
         e.preventDefault();
         if (reqBody.password === reqBody.password_verify) {
-            createUserWithEmailAndPassword(reqBody.email, reqBody.password)
+            await createUserWithEmailAndPassword(reqBody.email, reqBody.password);
         }
     }
 
@@ -29,7 +29,7 @@ const RegisterForm = () => {
         setReqBody(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    return (
+    return (loading ? <p>Loading...</p> :
         <div className="flex justify-center" >
             <form
                 className="flex flex-col col-span-auto text-white m-10"

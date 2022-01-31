@@ -1,14 +1,14 @@
-import UserTitleList from './components/List';
-import { LoginForm, Logout } from './components/Login';
-import AddTitlePage from './components/AddTitle';
-import RegisterForm from './components/Register';
-import UserPage from './components/User';
+import UserTitleList from './components/Pages/List';
+import { LoginForm, Logout } from './components/Pages/Login';
+import AddTitlePage from './components/Pages/AddTitle';
+import RegisterForm from './components/Pages/Register';
+import UserPage from './components/Pages/User';
+import Navbar from './components/Layout/Navbar';
 
 import {
   Switch,
   Route
 } from "react-router-dom";
-import Navbar from './components/Navbar';
 
 function App() {
   const PrivateRoute = ({ children }) => {

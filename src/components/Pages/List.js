@@ -1,6 +1,6 @@
 import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import { useState, useEffect, createContext, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useState, createContext, useContext } from 'react';
 import {
     AiOutlineDelete,
     AiOutlineEdit,
@@ -12,22 +12,7 @@ const TitleContext = createContext(null);
 const DeleteButton = ({ mal_id }) => {
     const { titles, setTitles } = useContext(TitleContext);
     const deleteTitle = () => {
-        fetch(`${process.env.REACT_APP_APIURL}/list/remove`,
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                    mal_id: mal_id,
-                    userID: Number(localStorage.getItem("userID"))
-                }),
-                headers: {
-                    'Authentication': localStorage.getItem("token"),
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.hasOwnProperty('message')) setTitles(titles.filter(e => e.mal_id !== mal_id))
-            })
+
     }
 
     return (
@@ -48,28 +33,7 @@ const EditButton = ({ setEditing }) => {
 const ConfirmButton = ({ title, setEditing }) => {
     const { titles, setTitles } = useContext(TitleContext);
     const updateTitle = () => {
-        fetch(`${process.env.REACT_APP_APIURL}/list/edit`,
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                    status: title.status,
-                    rating: title.rating,
-                    reasoning: title.reasoning,
-                    mal_id: title.mal_id,
-                    userID: Number(localStorage.getItem("userID"))
-                }),
-                headers: {
-                    'Authentication': localStorage.getItem("token"),
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.hasOwnProperty('message')) {
-                    setTitles(titles.map(t => t.mal_id === title.mal_id ? title : t));
-                    setEditing(false);
-                }
-            })
+
     }
 
     return (
@@ -170,19 +134,6 @@ const Title = ({ titleData }) => {
 
 const UserTitleList = () => {
     let [titles, setTitles] = useState([]);
-    let { userID } = useParams();
-
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_APIURL}/list/get/${userID}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .then((data => setTitles(data)))
-    }, [userID])
 
     return (
         <TitleContext.Provider value={{ titles: titles, setTitles: setTitles }}>

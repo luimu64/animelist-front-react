@@ -11,7 +11,7 @@ import {
 import { Link, BrowserRouter, useHistory } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAuth } from "firebase/auth";
-import { app } from "../firebase-config";
+import { app } from "../../firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const UserSearch = ({ setOpen }) => {
