@@ -6,12 +6,16 @@ import { db } from '../../firebase-config';
 const SearchResult = ({ data, titleData, setTitleData }) => {
     return (
         <div
-            className="flex m-2 text-white bg-red-500 rounded-xl w-60 h-60"
+            className="flex m-2 text-white bg-red-500 rounded-xl w-60 h-60 group"
             onClick={() => setTitleData({ ...titleData, data: data })}
         >
-            <div className="flex flex-1 flex-col m-0.5 rounded-xl p-2 bg-gray-600 overflow-ellipsis overflow-hidden">
-                <h5 className="font-bold">{data.title}</h5>
-                <p className="pb-1">{data.synopsis}</p>
+            <div
+                className="flex flex-1 relative flex-col m-0.5 rounded-xl bg-gray-600 overflow-ellipsis overflow-hidden" >
+                <img className="brightness-100 group-hover:brightness-25 transition h-auto w-full absolute" src={data.image_url} alt="series-thumbnail" />
+                <div className="z-10 p-2 opacity-0 group-hover:opacity-100 transition">
+                    <h2 className="font-bold">{data.title}</h2>
+                    <p className="pb-1">{data.synopsis}</p>
+                </div>
             </div>
         </div>
     )
