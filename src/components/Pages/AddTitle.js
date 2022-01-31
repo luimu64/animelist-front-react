@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { AiOutlineRollback } from 'react-icons/ai'
 import { collection, addDoc } from "firebase/firestore";
-import { db } from '../../firebase-config';
+import { app, db } from '../../firebase-config';
+import { getAuth } from "firebase/auth";
 
 const SearchResult = ({ data, titleData, setTitleData }) => {
     return (
@@ -11,7 +12,7 @@ const SearchResult = ({ data, titleData, setTitleData }) => {
         >
             <div
                 className="flex flex-1 relative flex-col m-0.5 rounded-xl bg-gray-600 overflow-ellipsis overflow-hidden" >
-                <img className="brightness-100 group-hover:brightness-25 transition h-auto w-full absolute" src={data.image_url} alt="series-thumbnail" />
+                <img className="brightness-100 group-hover:brightness-25 transition w-full aspect-square absolute" src={data.image_url} alt="series-thumbnail" />
                 <div className="z-10 p-2 opacity-0 group-hover:opacity-100 transition">
                     <h2 className="font-bold">{data.title}</h2>
                     <p className="pb-1">{data.synopsis}</p>
@@ -23,17 +24,13 @@ const SearchResult = ({ data, titleData, setTitleData }) => {
 
 const AddForm = ({ titleData, setTitleData }) => {
     const sendData = async (e) => {
-        console.log(titleData)
         e.preventDefault();
-        try {
-            const docRef = await addDoc(collection(db, "users"), {
-                first: "Ada",
-                last: "Lovelace",
-                born: 1815
-            });
-            console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-            console.error("Error adding document: ", e);
+        if (getAuth(app).currentUser) {
+            try {
+                await addDoc(collection(db, "users", getAuth(app).currentUser.uid, "list"), titleData);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
         }
     }
 
@@ -84,7 +81,13 @@ const AddForm = ({ titleData, setTitleData }) => {
 const AddTitlePage = () => {
     const [query, setQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [titleData, setTitleData] = useState({ rating: "", status: "unknown", reasoning: "", userID: Number(localStorage.getItem("userID")), data: {} });
+    const [titleData, setTitleData] = useState({
+        rating: "",
+        status: "unknown",
+        reasoning: "",
+        uid: "",
+        data: {}
+    });
 
     const search = (e) => {
         e.preventDefault();
