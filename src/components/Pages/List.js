@@ -1,11 +1,15 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 import {
     AiOutlineDelete,
     AiOutlineEdit,
     AiOutlineCheck
 } from "react-icons/ai"
+import { collection, getDocs } from "firebase/firestore";
+import { app, db } from '../../firebase-config';
+import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const TitleContext = createContext(null);
 
@@ -88,16 +92,16 @@ const CardPreviewing = ({ title, setEditing, pathname }) => {
     return (
         <div className="flex m-2 text-white bg-red-500 rounded-xl bg-opacity-90">
             <div className="flex flex-1 flex-row m-0.5 rounded-xl p-2 bg-gray-600">
-                <img className="h-44 m-2 rounded-lg w-28" src={title.thumbnail} alt={title.name} />
+                <img className="h-44 m-2 rounded-lg w-28" src={title.data.image_url} alt={title.data.title} />
                 <div className="grid grid-cols-3">
                     <div className="m-2 col-span-3 md:col-span-1">
-                        <h3 className="py-2 font-bold">{title.name}</h3>
+                        <h3 className="py-2 font-bold">{title.data.title}</h3>
                         <p className="py-1">{title.status}</p>
                         <p className="py-1">{title.rating}</p>
                         <p className="py-1 overflow-ellipsis overflow-hidden">{title.reasoning}</p>
                     </div>
                     <div className="col-span-2 m-2 hidden md:block">
-                        <p>{title.synopsis}</p>
+                        <p>{title.data.synopsis}</p>
                     </div>
                 </div>
             </div>
@@ -134,12 +138,24 @@ const Title = ({ titleData }) => {
 
 const UserTitleList = () => {
     let [titles, setTitles] = useState([]);
+    const auth = getAuth(app);
+    const [user, loading, error] = useAuthState(auth);
+
+    useEffect(() => {
+        if (user) {
+            getDocs(collection(db, "users", user.uid, "list"))
+                .then(list => {
+                    setTitles(list.docs);
+                })
+        }
+    }, [user])
 
     return (
         <TitleContext.Provider value={{ titles: titles, setTitles: setTitles }}>
-            <div className="title-wrapper">
-                {titles.map(title => <Title key={title.id} titleData={title} />)}
-            </div>
+            {loading ? <p>Loading...</p> :
+                <div className="title-wrapper">
+                    {titles.map(title => <Title key={title.data().data.mal_id} titleData={title.data()} />)}
+                </div>}
         </TitleContext.Provider>
     )
 }
