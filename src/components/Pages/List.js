@@ -1,15 +1,16 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useState, createContext, useContext, useEffect } from 'react';
+import { collection, getDocs } from "firebase/firestore";
+import { app, db } from '../../firebase-config';
+import { getAuth } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { setDoc, doc } from 'firebase/firestore';
 import {
     AiOutlineDelete,
     AiOutlineEdit,
     AiOutlineCheck
 } from "react-icons/ai"
-import { collection, getDocs } from "firebase/firestore";
-import { app, db } from '../../firebase-config';
-import { getAuth } from 'firebase/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
 
 const TitleContext = createContext(null);
 
@@ -36,8 +37,19 @@ const EditButton = ({ setEditing }) => {
 
 const ConfirmButton = ({ title, setEditing }) => {
     const { titles, setTitles } = useContext(TitleContext);
-    const updateTitle = () => {
+    const auth = getAuth(app);
+    const [user] = useAuthState(auth);
 
+    const updateTitle = async () => {
+        if (user) {
+            try {
+                await setDoc(doc(db, "users", user.uid, "list", `${title.data.mal_id}`), title);
+                setTitles(titles.map(t => t.mal_id === title.data.mal_id ? title : t));
+                setEditing(false);
+            } catch (e) {
+                console.error("Error updating title: ", e);
+            }
+        }
     }
 
     return (
@@ -49,7 +61,7 @@ const CardEditing = ({ title, setTitle, setEditing, pathname }) => {
     return (
         <div className="flex m-2 text-white bg-red-500 rounded-xl">
             <div className="flex flex-1 flex-row flex-wrap m-0.5 rounded-xl p-2 bg-gray-600">
-                <img className="h-44 m-2 rounded-lg w-28" src={title.thumbnail} alt={title.name} />
+                <img className="h-44 m-2 rounded-lg w-28" src={title.data.image_url} alt={title.data.title} />
                 <div className="flex row flex-1 flex-wrap">
                     <div className="m-2 flex flex-col">
                         <h3 className="py-2 font-bold">{title.name}</h3>
@@ -139,7 +151,7 @@ const Title = ({ titleData }) => {
 const UserTitleList = () => {
     let [titles, setTitles] = useState([]);
     const auth = getAuth(app);
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
 
     useEffect(() => {
         if (user) {

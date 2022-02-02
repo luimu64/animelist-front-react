@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { AiOutlineRollback } from 'react-icons/ai'
-import { collection, addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { app, db } from '../../firebase-config';
 import { getAuth } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const SearchResult = ({ data, titleData, setTitleData }) => {
     return (
@@ -23,13 +24,16 @@ const SearchResult = ({ data, titleData, setTitleData }) => {
 }
 
 const AddForm = ({ titleData, setTitleData }) => {
+    const auth = getAuth(app);
+    const [user, loading, error] = useAuthState(auth);
+
     const sendData = async (e) => {
         e.preventDefault();
-        if (getAuth(app).currentUser) {
+        if (user) {
             try {
-                await addDoc(collection(db, "users", getAuth(app).currentUser.uid, "list"), titleData);
+                await setDoc(doc(db, "users", user.uid, "list", `${titleData.data.mal_id}`), titleData);
             } catch (e) {
-                console.error("Error adding document: ", e);
+                console.error("Error adding title: ", e);
             }
         }
     }
@@ -85,7 +89,6 @@ const AddTitlePage = () => {
         rating: "",
         status: "unknown",
         reasoning: "",
-        uid: "",
         data: {}
     });
 
