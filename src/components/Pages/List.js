@@ -5,7 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { app, db } from '../../firebase-config';
 import { getAuth } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, deleteDoc, doc } from 'firebase/firestore';
 import {
     AiOutlineDelete,
     AiOutlineEdit,
@@ -15,13 +15,22 @@ import {
 const TitleContext = createContext(null);
 
 const DeleteButton = ({ mal_id }) => {
-    const { titles, setTitles } = useContext(TitleContext);
-    const deleteTitle = () => {
+    const { titles, setTitles, auth } = useContext(TitleContext);
+    const [user] = useAuthState(auth);
 
+    const deleteTitle = async () => {
+        if (user) {
+            try {
+                await deleteDoc(doc(db, "users", user.uid, "list", `${mal_id}`));
+                setTitles(titles.filter(t => t.data().data.mal_id !== mal_id));
+            } catch (e) {
+                console.error("Error deleting title: ", e);
+            }
+        }
     }
 
     return (
-        <button className="" onClick={() => deleteTitle()}><AiOutlineDelete size={45} /></button>
+        <button onClick={() => deleteTitle()}><AiOutlineDelete size={45} /></button>
     )
 }
 
@@ -31,13 +40,12 @@ const EditButton = ({ setEditing }) => {
     }
 
     return (
-        <button className="" onClick={() => editTitle()}><AiOutlineEdit size={45} /></button>
+        <button onClick={() => editTitle()}><AiOutlineEdit size={45} /></button>
     )
 }
 
 const ConfirmButton = ({ title, setEditing }) => {
-    const { titles, setTitles } = useContext(TitleContext);
-    const auth = getAuth(app);
+    const { titles, setTitles, auth } = useContext(TitleContext);
     const [user] = useAuthState(auth);
 
     const updateTitle = async () => {
@@ -53,7 +61,7 @@ const ConfirmButton = ({ title, setEditing }) => {
     }
 
     return (
-        <button className="" onClick={() => updateTitle()}><AiOutlineCheck size={45} /></button>
+        <button onClick={() => updateTitle()}><AiOutlineCheck size={45} /></button>
     )
 }
 
@@ -119,7 +127,7 @@ const CardPreviewing = ({ title, setEditing, pathname }) => {
             </div>
             {pathname === "/list" &&
                 <div className="flex flex-col justify-around mr-1">
-                    <DeleteButton mal_id={title.mal_id} />
+                    <DeleteButton mal_id={title.data.mal_id} />
                     <EditButton setEditing={setEditing} />
                 </div>}
         </div>
@@ -163,7 +171,7 @@ const UserTitleList = () => {
     }, [user])
 
     return (
-        <TitleContext.Provider value={{ titles: titles, setTitles: setTitles }}>
+        <TitleContext.Provider value={{ titles: titles, setTitles: setTitles, auth: auth }}>
             {loading ? <p>Loading...</p> :
                 <div className="title-wrapper">
                     {titles.map(title => <Title key={title.data().data.mal_id} titleData={title.data()} />)}
