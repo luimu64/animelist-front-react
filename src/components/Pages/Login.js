@@ -31,8 +31,6 @@ const LoginForm = () => {
         signInWithEmailAndPassword(reqBody.email, reqBody.password);
     }
 
-    console.log(reqBody)
-
     return (
         <div className="flex justify-center" >
             <form className="flex flex-col col-span-auto text-white m-10"
