@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
 import { app } from '../../firebase-config';
+import { TextField, Button } from "../Inputs";
 
 const RegisterForm = () => {
     const [reqBody, setReqBody] = useState({ username: "", email: "", password: "", password_verify: "" });
@@ -39,8 +40,7 @@ const RegisterForm = () => {
                     htmlFor="username">
                     Username
                 </label>
-                <input
-                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                <TextField
                     type="text"
                     name="username"
                     placeholder="Username"
@@ -52,8 +52,7 @@ const RegisterForm = () => {
                     htmlFor="email">
                     Email
                 </label>
-                <input
-                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                <TextField
                     type="text"
                     name="email"
                     placeholder="Email"
@@ -65,8 +64,7 @@ const RegisterForm = () => {
                     htmlFor="password">
                     Password
                 </label>
-                <input
-                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                <TextField
                     type="password"
                     name="password"
                     placeholder="Password"
@@ -79,8 +77,7 @@ const RegisterForm = () => {
                     htmlFor="password-verify">
                     Password again
                 </label>
-                <input
-                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                <TextField
                     type="password"
                     name="password_verify"
                     placeholder="Password"
@@ -88,11 +85,10 @@ const RegisterForm = () => {
                     minLength={6}
                     onChange={handleChange}
                 />
-                <button
+                <Button
                     type="submit"
-                    className="filter hover:brightness-90 bg-red-500 rounded-md p-2 mt-2 mx-1">
-                    Sign up
-                </button>
+                    text="Register"
+                />
             </form>
         </div>
     )

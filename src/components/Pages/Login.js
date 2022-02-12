@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
 import { app } from '../../firebase-config';
+import { TextField, Button } from "../Inputs";
 
 import {
     Link
@@ -12,6 +13,8 @@ const Logout = () => {
     auth.signOut();
     return null;
 }
+
+
 
 const LoginForm = () => {
     const auth = getAuth(app);
@@ -28,6 +31,8 @@ const LoginForm = () => {
         signInWithEmailAndPassword(reqBody.email, reqBody.password);
     }
 
+    console.log(reqBody)
+
     return (
         <div className="flex justify-center" >
             <form className="flex flex-col col-span-auto text-white m-10"
@@ -37,11 +42,10 @@ const LoginForm = () => {
                     className="m-2">
                     Email
                 </label>
-                <input
-                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
-                    type="text"
-                    id="email"
-                    placeholder="email"
+                <TextField
+                    type='text'
+                    id='email'
+                    placeholder='email'
                     value={reqBody.email}
                     onChange={e => setReqBody({ ...reqBody, email: e.target.value })}
                 />
@@ -50,25 +54,23 @@ const LoginForm = () => {
                     htmlFor="password">
                     Password
                 </label>
-                <input
-                    className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                <TextField
                     type="password"
                     id="password"
                     placeholder="Password"
                     value={reqBody.password}
                     onChange={e => setReqBody({ ...reqBody, password: e.target.value })}
                 />
-                <div className="flex justify-center my-2 mx-1">
-                    <button
-                        type="submit"
-                        className="flex-1 filter hover:brightness-90 bg-red-500 rounded-l-md p-2 mr-0.5">
-                        Sign in
-                    </button>
-                    <Link
-                        className="filter hover:brightness-90 bg-red-500 rounded-r-md p-2"
-                        to={"/register"}>
-                        Don't have an account?
-                    </Link>
+                <div className="flex justify-center my-2">
+                    <Button
+                        onClick={Login}
+                        text={'Login'}
+                    />
+                    <Button
+                        redirect={true}
+                        redirectUrl={'/register'}
+                        text={'Register'}
+                    />
                 </div>
             </form>
         </div>

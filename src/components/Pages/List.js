@@ -11,6 +11,7 @@ import {
     AiOutlineEdit,
     AiOutlineCheck
 } from "react-icons/ai"
+import { TextField, TextArea, Dropdown } from '../Inputs';
 
 const TitleContext = createContext(null);
 
@@ -73,31 +74,26 @@ const CardEditing = ({ title, setTitle, setEditing, pathname }) => {
                 <div className="flex row flex-1 flex-wrap">
                     <div className="m-2 flex flex-col">
                         <h3 className="py-2 font-bold">{title.name}</h3>
-                        <select
-                            value={title.status}
-                            className="m-1 p-1 rounded-lg h-10 bg-gray-500"
-                            onChange={e => setTitle({ ...title, status: e.target.value })}
-                        >
-                            <option value="watching">Watching</option>
-                            <option value="planning">Planning</option>
-                            <option value="watched">Watched</option>
-                            <option value="dropped">Dropped</option>
-                        </select>
-                        <input
-                            className="m-1 p-2 rounded-lg h-10 bg-gray-500"
+                        <Dropdown
+                            options={[
+                                { text: 'Watching', value: 'watching' },
+                                { text: 'Planning', value: 'planning' },
+                                { text: 'Watched', value: 'watched' },
+                                { text: 'Dropped', value: 'dropped' }
+                            ]}
+                            onChange={value => setTitle({ ...title, status: value })}
+                        />
+                        <TextField
                             type="text"
                             value={title.rating}
                             onChange={e => setTitle({ ...title, rating: e.target.value })}
                         />
-
                     </div>
-                    <textarea
-                        className="mx-3 md:my-3 p-1 flex-1 rounded-lg bg-gray-500"
+                    <TextArea
                         type="text"
-                        value={title.reasoning}
+                        reasoning={title.reasoning}
                         onChange={e => setTitle({ ...title, reasoning: e.target.value })}
-                    >
-                    </textarea>
+                    />
                 </div>
             </div>
             {pathname === "/list" &&
