@@ -8,7 +8,7 @@ import {
 const TextField = (props) => {
     return (
         <input
-            className="m-1 p-2 rounded h-10 bg-gray-500 !outline-none focus:ring-2 focus:ring-red-500 transition text-white"
+            className={classNames("m-1 p-2 rounded h-10 bg-gray-500 !outline-none focus:ring-2 focus:ring-red-500 transition text-white", props.extraClasses)}
             type={props.type}
             id={props.id}
             name={props.name}
@@ -25,9 +25,9 @@ const TextArea = (props) => {
         <textarea
             name={props.name}
             onChange={props.onChange}
-            className="m-1 p-1 rounded bg-gray-500 grow !outline-none focus:ring-2 focus:ring-red-500 transition text-white"
-        >{props.reasoning}
-        </textarea>
+            value={props.reasoning}
+            className={classNames("m-1 p-1 rounded bg-gray-500 grow !outline-none focus:ring-2 focus:ring-red-500 transition text-white", props.extraClasses)}
+        ></textarea>
     )
 }
 
@@ -39,14 +39,14 @@ const Button = (props) => {
             <button
                 onClick={props.onClick}
                 type={props.type}
-                className="transition hover:bg-red-700 bg-red-600 rounded p-2 w-full text-white">
+                className={classNames("transition h-10 hover:bg-red-700 bg-red-600 rounded p-2 w-full text-white", props.extraClasses)}>
                 {props.icon}{props.text}
             </button>
         </Link> :
         <button
             onClick={props.onClick}
             type={props.type}
-            className="m-1 transition hover:bg-red-700 bg-red-600 rounded p-2 text-white">
+            className={classNames("m-1 h-10 transition hover:bg-red-700 bg-red-600 rounded p-2 text-white", props.extraClasses)}>
             {props.icon}{props.text}
         </button>
 }
