@@ -18,7 +18,6 @@ const ChangePassword = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target)
     }
 
     return (
@@ -44,12 +43,17 @@ const ChangePassword = (props) => {
     )
 }
 
-const ChangeUsername = (props) => {
-    const [formData, setFormData] = useState({ username: '' })
+const ChangeUsername = () => {
+    const [user, loading, error] = useAuthState(auth);
+    const [username, setUsername] = useState('')
+
+    useEffect(() => {
+        if (user) setUsername(user.displayName);
+    }, [user])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target)
+        updateProfile(user, { displayName: username })
     }
 
     return (
@@ -57,18 +61,20 @@ const ChangeUsername = (props) => {
             title='Change username'
             handleSubmit={handleSubmit}
             sectionName='username'>
-            <TextField
-                type='text'
-                name='username'
-                placeholder='Username'
-                value={formData.username}
-                onChange={e => setFormData({ ...formData, username: e.target.value })}
-            />
+            {loading ? <AiOutlineLoading className="animate-spin my-5" size={60} /> :
+                <TextField
+                    type='text'
+                    name='username'
+                    placeholder='Username'
+                    minLenght={1}
+                    value={username || ''}
+                    onChange={e => setUsername(e.target.value)}
+                />}
         </SettingsSection>
     )
 }
 
-const ChangeProfilePicture = (props) => {
+const ChangeProfilePicture = () => {
     const [user, loading, error] = useAuthState(auth);
     const [photoUrl, setPhotoUrl] = useState('');
 
@@ -88,29 +94,32 @@ const ChangeProfilePicture = (props) => {
             sectionName='profile-picture'
             extraButtons={<Button text='Reset' type='button' onClick={() => setPhotoUrl('')} />}
         >
-            <div className="w-20 h-20 m-1 flex justify-center items-center">
-                {loading ? <AiOutlineLoading className="animate-spin" size={60} /> :
-                    photoUrl !== '' && photoUrl !== null ?
-                        <img
-                            className="rounded-full w-full h-full max-h-full object-cover"
-                            src={photoUrl}
-                            alt='profile picture'
-                        /> :
-                        <Avatar
-                            size={65}
-                            name={'test'}
-                            variant="marble"
-                            colors={["#8B5CF6", "#DB2777", "#4F46E5"]}
-                        />}
-            </div>
-            <TextField
-                type='text'
-                name='profilePictureUrl'
-                placeholder='Profile picture url'
-                extraClasses='grow'
-                value={photoUrl || ''}
-                onChange={e => setPhotoUrl(e.target.value)}
-            />
+            {loading ? <AiOutlineLoading className="animate-spin my-5" size={60} /> :
+                <>
+                    <div className="w-20 h-20 m-1 flex justify-center items-center">
+                        {photoUrl !== '' && photoUrl !== null ?
+                            <img
+                                className="rounded-full w-full h-full max-h-full object-cover"
+                                src={photoUrl}
+                                alt='profile picture'
+                            /> :
+                            <Avatar
+                                size={65}
+                                name={user.displayName || 'placeholder'}
+                                variant="marble"
+                                colors={["#8B5CF6", "#DB2777", "#4F46E5"]}
+                            />}
+                    </div>
+                    <TextField
+                        type='text'
+                        name='profilePictureUrl'
+                        placeholder='Profile picture url'
+                        extraClasses='grow'
+                        value={photoUrl || ''}
+                        onChange={e => setPhotoUrl(e.target.value)}
+                    />
+                </>
+            }
         </SettingsSection>
     )
 }
