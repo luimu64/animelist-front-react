@@ -14,6 +14,8 @@ import { getAuth } from "firebase/auth";
 import { app } from "../../firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { TextField, Button } from "../Inputs";
+import { useEffect } from "react/cjs/react.development";
+import Avatar from "boring-avatars";
 
 const UserSearch = ({ setOpen }) => {
     let history = useHistory();
@@ -27,7 +29,7 @@ const UserSearch = ({ setOpen }) => {
     }
 
     return (
-        <form className="flex max-h-full mr-2" onSubmit={handleSubmit}>
+        <form className="flex items-center h-full mr-2 md:mr-14" onSubmit={handleSubmit}>
             <TextField
                 type="text"
                 value={query}
@@ -83,24 +85,28 @@ const NavLink = ({ setOpen, icon, text, route }) => {
 const Navbar = ({ children }) => {
     const auth = getAuth(app);
     const [user, loading, error] = useAuthState(auth);
-    const [open, setOpen] = useState(window.innerWidth > 1024);
+    const [open, setOpen] = useState(window.innerWidth > 768);
     const [openAcc, setOpenAcc] = useState(false);
 
-    window.addEventListener("resize", () => {
-        setOpen(window.innerWidth > 1024);
-    });
+    useEffect(() => {
+        const checkNavbarVisibility = () => setOpen(window.innerWidth > 768);
+
+        window.addEventListener("resize", checkNavbarVisibility);
+
+        return () => window.removeEventListener("resize", checkNavbarVisibility);
+    }, [])
 
     return (
         <BrowserRouter>
-            <nav className="flex bg-gray-700 p-2 items-start">
-                <div className="flex grow flex-col lg:flex-row rounded-b-lg">
-                    <button className={"block lg:hidden m-2 text-white"} onClick={() => setOpen(!open)}><AiOutlineMenu size={40} /></button>
+            <nav className="bg-gray-700 p-2 items-start">
+                <div className="flex grow flex-col md:flex-row rounded-b-lg">
+                    <button className="block md:hidden m-2 text-white w-min" onClick={() => setOpen(!open)}><AiOutlineMenu size={40} /></button>
                     {open &&
                         <AnimatePresence
                             initial={false}
                         >
                             <motion.div
-                                className="flex flex-col lg:flex-row flex-1"
+                                className="flex flex-col md:flex-row flex-1"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
@@ -122,10 +128,17 @@ const Navbar = ({ children }) => {
                                 <UserSearch setOpen={setOpen} />
                             </motion.div>
                         </AnimatePresence>}
-                </div>
-                <div className="flex m-0.5 h-12 w-12 relative" onClick={() => setOpenAcc(!openAcc)}>
-                    <img className="rounded-full w-full h-auto" src="https://cdn.myanimelist.net/images/characters/8/433732.jpg" />
-                    {openAcc && <DropdownMenu setOpen={setOpen} user={user} />}
+                    <div className="flex absolute h-10 w-10 right-4 top-4" onClick={() => setOpenAcc(!openAcc)}>
+                        {(user && user.photoURL != null) ?
+                            <img className="rounded-full object-cover" src={user.photoURL} /> :
+                            <Avatar
+                                size={40}
+                                name={'a'}
+                                variant="marble"
+                                colors={["#8B5CF6", "#DB2777", "#4F46E5"]}
+                            />}
+                        {openAcc && <DropdownMenu setOpen={setOpen} user={user} />}
+                    </div>
                 </div>
             </nav>
             {children}

@@ -46,7 +46,7 @@ const Button = (props) => {
         <button
             onClick={props.onClick}
             type={props.type}
-            className={classNames("m-1 h-10 transition hover:bg-red-700 bg-red-600 rounded p-2 text-white", props.extraClasses)}>
+            className={classNames("h-10 transition hover:bg-red-700 bg-red-600 rounded m-1 p-2 text-white", props.extraClasses)}>
             {props.icon}{props.text}
         </button>
 }

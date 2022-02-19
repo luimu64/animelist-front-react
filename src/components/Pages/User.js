@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { TextField, Button } from "../Inputs";
 import { SettingsSection } from "../Sections";
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import { app } from '../../firebase-config';
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useAuthState, useUpdatePassword } from "react-firebase-hooks/auth";
+import Avatar from "boring-avatars";
+import { useEffect } from "react/cjs/react.development";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const auth = getAuth(app)
 
@@ -67,29 +70,47 @@ const ChangeUsername = (props) => {
 
 const ChangeProfilePicture = (props) => {
     const [user, loading, error] = useAuthState(auth);
-    const [formData, setFormData] = useState({ username: '' })
+    const [photoUrl, setPhotoUrl] = useState('');
+
+    useEffect(() => {
+        if (user) setPhotoUrl(user.photoURL)
+    }, [user])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target)
+        updateProfile(user, { photoURL: photoUrl })
     }
 
     return (
         <SettingsSection
             title='Change profile picture'
             handleSubmit={handleSubmit}
-            sectionName='profile-picture'>
-            <div className="w-full flex flex-col" >
-                <TextField
-                    type='text'
-                    name='profilePictureUrl'
-                    placeholder='Profile picture url'
-                    extraClasses='sm:mr-5'
-                    value={formData.username}
-                    onChange={e => setFormData({ ...formData, username: e.target.value })}
-                />
-                <img className="m-1" src={user.photoUrl || ''} alt='profile picture' />
+            sectionName='profile-picture'
+            extraButtons={<Button text='Reset' type='button' onClick={() => setPhotoUrl('')} />}
+        >
+            <div className="w-20 h-20 m-1 flex justify-center items-center">
+                {loading ? <AiOutlineLoading className="animate-spin" size={60} /> :
+                    photoUrl !== '' && photoUrl !== null ?
+                        <img
+                            className="rounded-full w-full h-full max-h-full object-cover"
+                            src={photoUrl}
+                            alt='profile picture'
+                        /> :
+                        <Avatar
+                            size={65}
+                            name={'test'}
+                            variant="marble"
+                            colors={["#8B5CF6", "#DB2777", "#4F46E5"]}
+                        />}
             </div>
+            <TextField
+                type='text'
+                name='profilePictureUrl'
+                placeholder='Profile picture url'
+                extraClasses='grow'
+                value={photoUrl || ''}
+                onChange={e => setPhotoUrl(e.target.value)}
+            />
         </SettingsSection>
     )
 }

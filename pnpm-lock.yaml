@@ -7,6 +7,7 @@ specifiers:
   '@testing-library/react': ^11.2.7
   '@testing-library/user-event': ^12.8.3
   autoprefixer: ^10.4.2
+  boring-avatars: ^1.6.1
   classnames: ^2.3.1
   firebase: ^9.6.3
   firebase-react-hooks: ^0.8.0
@@ -28,6 +29,7 @@ dependencies:
   '@testing-library/jest-dom': 5.16.2
   '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
   '@testing-library/user-event': 12.8.3
+  boring-avatars: 1.6.1
   classnames: 2.3.1
   firebase: 9.6.7
   firebase-react-hooks: 0.8.0_firebase@9.6.7+react@17.0.2
@@ -3751,6 +3753,10 @@ packages:
 
   /boolbase/1.0.0:
     resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
+    dev: false
+
+  /boring-avatars/1.6.1:
+    resolution: {integrity: sha512-P7BZRz1DEdx61iW7q8EoB10rDLGGH4ec8uwQsMKOCag8TznC5A/efd5OBuL9Su3HjMEDHN3X8/JRRQNsVZMl4Q==}
     dev: false
 
   /brace-expansion/1.1.11:
