@@ -32,10 +32,11 @@ const UserSearch = ({ setOpen }) => {
     }
 
     return (
-        <form className="flex items-center h-full mr-2 md:mr-14" onSubmit={handleSubmit}>
+        <form className="flex items-center h-full md:mr-14" onSubmit={handleSubmit}>
             <TextField
                 type="text"
                 value={query}
+                extraClasses='grow sm:grow-0'
                 onChange={e => setQuery(e.target.value)}
             />
             <Button
