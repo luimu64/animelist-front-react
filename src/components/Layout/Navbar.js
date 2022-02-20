@@ -6,7 +6,8 @@ import {
     AiOutlineLogout,
     AiOutlinePlusCircle,
     AiOutlineSearch,
-    AiOutlineMenu
+    AiOutlineMenu,
+    AiOutlineLoading
 } from "react-icons/ai"
 import { Link, BrowserRouter, useHistory } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";

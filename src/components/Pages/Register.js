@@ -69,7 +69,6 @@ const RegisterForm = () => {
                     name="password"
                     placeholder="Password"
                     value={reqBody.password}
-                    minLength={6}
                     onChange={handleChange}
                 />
                 <label
@@ -82,7 +81,6 @@ const RegisterForm = () => {
                     name="password_verify"
                     placeholder="Password"
                     value={reqBody.password_verify}
-                    minLength={6}
                     onChange={handleChange}
                 />
                 <Button

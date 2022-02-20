@@ -168,10 +168,9 @@ const UserTitleList = () => {
 
     return (
         <TitleContext.Provider value={{ titles: titles, setTitles: setTitles, auth: auth }}>
-            {loading ? <p>Loading...</p> :
-                <div className="title-wrapper">
-                    {titles.map(title => <Title key={title.data().data.mal_id} titleData={title.data()} />)}
-                </div>}
+            <div className="title-wrapper">
+                {titles.map(title => <Title key={title.data().data.mal_id} titleData={title.data()} />)}
+            </div>
         </TitleContext.Provider>
     )
 }

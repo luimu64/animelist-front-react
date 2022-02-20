@@ -14,7 +14,6 @@ const TextField = (props) => {
             name={props.name}
             placeholder={props.placeholder}
             value={props.value}
-            minLength={props.minLength}
             onChange={props.onChange}
         />
     )
