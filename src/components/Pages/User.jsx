@@ -5,7 +5,7 @@ import { getAuth } from "firebase/auth";
 import { app } from '../../firebase-config';
 import { useAuthState, useUpdatePassword, useUpdateProfile } from "react-firebase-hooks/auth";
 import Avatar from "boring-avatars";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 
 const auth = getAuth(app);
@@ -18,8 +18,6 @@ const ChangePassword = ({ currentUser }) => {
         e.preventDefault();
         await updatePassword(password);
     }
-
-    console.log(error)
 
     return (
         <SettingsSection

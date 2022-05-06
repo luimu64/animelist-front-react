@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { getAuth } from "firebase/auth";
 import { app } from '../../firebase-config';
@@ -8,7 +8,7 @@ import { TextField, Button } from "../Inputs";
 
 const RegisterForm = () => {
     const [reqBody, setReqBody] = useState({ username: "", email: "", password: "", password_verify: "" });
-    const history = useHistory();
+    const history = useNavigate();
     const auth = getAuth(app);
     const [
         createUserWithEmailAndPassword,

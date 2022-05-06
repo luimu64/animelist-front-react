@@ -1,5 +1,8 @@
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       bgprimary: "#202020",
@@ -10,5 +13,6 @@ module.exports = {
         25: '.25'
       }
     },
-  }
+  },
+  plugins: [],
 }

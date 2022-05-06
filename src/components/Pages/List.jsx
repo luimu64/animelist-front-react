@@ -13,6 +13,8 @@ import {
 } from "react-icons/ai"
 import { TextField, TextArea, Dropdown } from '../Inputs';
 
+const auth = getAuth(app);
+
 const TitleContext = createContext(null);
 
 const DeleteButton = ({ mal_id }) => {
@@ -154,7 +156,6 @@ const Title = ({ titleData }) => {
 
 const UserTitleList = () => {
     let [titles, setTitles] = useState([]);
-    const auth = getAuth(app);
     const [user, loading] = useAuthState(auth);
 
     useEffect(() => {

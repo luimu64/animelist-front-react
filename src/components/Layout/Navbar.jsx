@@ -9,20 +9,20 @@ import {
     AiOutlineMenu,
     AiOutlineLoading
 } from "react-icons/ai"
-import { Link, BrowserRouter, useHistory } from "react-router-dom";
+import { Link, BrowserRouter, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAuth } from "firebase/auth";
 import { app } from "../../firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { TextField, Button } from "../Inputs";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 import Avatar from "boring-avatars";
 import classNames from "classnames";
 
 const auth = getAuth(app);
 
 const UserSearch = ({ setOpen }) => {
-    let history = useHistory();
+    let history = useNavigate();
     const [query, setQuery] = useState('');
 
     const handleSubmit = (e) => {
